@@ -1,0 +1,15 @@
+.gitignore
+CMakeCache.txt
+CMakeFiles/
+Makefile
+TAGS
+cmake_install.cmake
+gtest/*
+gtest/*/*
+include/*/*
+src/voids
+src/.*
+unittest/CMakeFiles/
+unittest/Makefile
+unittest/cmake_install.cmake
+unittest/voidstest
