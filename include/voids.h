@@ -1,7 +1,12 @@
-#ifndef _voids_h_
-#define _voids_h_
+// voids.h
+//
+//
+// Description:
+//
+//////////////////////////////////////////////////////////////////////
 
-
+#ifndef VOIDS_H
+#define VOIDS_H
 
 namespace voids
 {   
@@ -12,4 +17,8 @@ namespace voids
     };   
 }
 
-#endif // _voids_h_
+#endif // VOIDS_H
+//////////////////////////////////////////////////////////////////////
+// $Log:$
+//
+

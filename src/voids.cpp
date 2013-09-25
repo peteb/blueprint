@@ -1,8 +1,13 @@
-#include "voids.h"
+#include <voids.h>
 #include <iostream>
+
+#include "screen.h"
+
+using namespace voids;
 
 int main()
 {
-    std::cout << "TATA" << std::endl;
+    std::cout << "Starting Voids" << std::endl;
+    Screen scr;
     return 0;
 }
