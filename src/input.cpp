@@ -1,24 +1,35 @@
-// voids.h
+// input.cpp
 //
-//
+// 
 // Description:
 //
 //////////////////////////////////////////////////////////////////////
 
-#ifndef VOIDS_H
-#define VOIDS_H
+#include "input.h"
 
-namespace voids
-{   
-    class voids
-    {
-    public:
-        
-    };   
+using namespace voids;
+
+Input::Input()
+{
+
 }
 
-#endif // VOIDS_H
+Input::~Input()
+{
+
+}
+
+void Input::init()
+{
+
+}
+
+void Input::cleanup()
+{
+
+}
+ 
+
 //////////////////////////////////////////////////////////////////////
 // $Log:$
 //
-

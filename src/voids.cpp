@@ -1,3 +1,5 @@
+
+
 #include <voids.h>
 #include <iostream>
 
@@ -9,5 +11,7 @@ int main()
 {
     std::cout << "Starting Voids" << std::endl;
     Screen scr;
+    
     return 0;
 }
+

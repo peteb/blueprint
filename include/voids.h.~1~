@@ -1,9 +1,0 @@
-#ifndef _voids_h_
-#define _voids_h_
-
-int main()
-{
-    return 0;
-}
-
-#endif // _voids_h_

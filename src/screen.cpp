@@ -7,6 +7,7 @@
 
 #include "screen.h"
 #include <ncurses.h>
+#include <panel.h>
 
 using namespace voids;
 
@@ -22,6 +23,7 @@ Screen::~Screen()
 void Screen::init()
 {
     initscr();
+    start_color();
     raw();
     keypad(stdscr, TRUE);
     noecho();
@@ -31,6 +33,8 @@ void Screen::init()
 void Screen::cleanup()
 {
 }
+
+
 //////////////////////////////////////////////////////////////////////
 // $Log:$
 //
