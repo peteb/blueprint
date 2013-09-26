@@ -9,7 +9,8 @@ int main()
 {
     std::cout << "Starting Voids" << std::endl;
     // Initialize and setup the view
-    Screen scr; 
+    Screen scr;
+ 
     
     return 0;
 }
