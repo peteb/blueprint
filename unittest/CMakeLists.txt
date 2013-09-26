@@ -1,12 +1,9 @@
 cmake_minimum_required(VERSION 2.8)
-#set(GTEST_ROOT $ENV{VOID_ROOT}/unittest/gtest)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake_modules/")
-
-link_directories( /usr/local/lib /usr/lib $ENV{VOID_ROOT}/gtest/lib $ENV{VOID_ROOT}/gtest )
-include_directories(${GTEST_INCLUDE_DIRS} $ENV{VOIDS_ROOT}/src)
-
-add_executable (voidstest voidstest.cpp)
-target_link_libraries (voidstest gtest)
+link_directories( /usr/local/lib /usr/lib $ENV{BLUEPRINT_ROOT}/gtest/lib $ENV{BLUEPRINT_ROOT}/gtest )
+include_directories(${GTEST_INCLUDE_DIRS} $ENV{BLUEPRINT_ROOT}/src)
+add_executable (blueprint-test blueprinttest.cpp)
+target_link_libraries (blueprint-test gtest)
 
 set(CMAKE_CXX_FLAGS_DEBUG "-ggdb -O0")
 set(CMAKE_CXX_FLAGS_RELEASE "-O2")

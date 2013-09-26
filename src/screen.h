@@ -1,6 +1,7 @@
 // screen.h
 //
-// Description: NCurses screen handling class
+// Description: NCurses screen handling class, handles all things
+// related to screens, such as windows and panels as well.
 //
 //////////////////////////////////////////////////////////////////////
 

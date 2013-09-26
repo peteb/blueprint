@@ -25,6 +25,7 @@ void Screen::init()
     initscr();
     start_color();
     raw();
+    // TODO: Instantiate input here
     keypad(stdscr, TRUE);
     noecho();
     getch();
