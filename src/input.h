@@ -11,7 +11,7 @@
 
 #include <ncurses.h>
 
-namespace voids
+namespace blueprint
 {
     class Input
 {

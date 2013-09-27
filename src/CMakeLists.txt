@@ -6,6 +6,6 @@ find_package(Curses)
 include_directories( $ENV{BLUEPRINT_ROOT}/src $ENV{BLUEPRINT_ROOT}/include ${CURSES_INCLUDE_DIRS} )
 add_executable(blueprint
  	blueprint.cpp
-	screen.cpp
+	world_view.cpp
 	input.cpp)
-target_link_libraries (blueprint void ${CURSES_LIBRARIES})
+target_link_libraries (blueprint void ${CURSES_LIBRARIES} glog)

@@ -7,7 +7,7 @@
 
 #include "input.h"
 
-using namespace voids;
+using namespace blueprint;
 
 Input::Input()
 {
@@ -21,7 +21,9 @@ Input::~Input()
 
 void Input::init()
 {
-
+    keypad(stdscr, TRUE);
+    noecho();
+    getch();  // Hang around while I work on stuff
 }
 
 void Input::cleanup()
