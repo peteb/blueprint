@@ -29,11 +29,23 @@ int main( int argc, char* argv[] )
     FLAGS_logtostderr = 1;
     DLOG( INFO ) << " Starting Blueprint ";
 
+    // Initializing ncurses
+
+    initscr( );
+    if ( has_colors() == FALSE ) {
+        LOG(WARNING) << "Your terminal lacks colors.";
+    } else {
+        start_color( );
+    }
+    init_pair( 1, COLOR_RED, COLOR_BLACK );
+    attron( COLOR_PAIR( 1 ) );
+    // Setting up the world
+
     WorldView wv;
-    wv.create_fullterminal_panel();
+    wv.create_fullterminal_panel( "Main" );
 
     Input input;
-    
+
     return 0;
 }
 

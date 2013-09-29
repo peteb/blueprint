@@ -11,6 +11,8 @@
 
 #include <ncurses.h>
 
+#include <glog/logging.h>
+
 namespace blueprint
 {
     class Input
@@ -19,7 +21,6 @@ public:
     Input();
     ~Input();
     void init();
-    void cleanup();
     
 // Cursor movement
     
@@ -34,6 +35,7 @@ private:
     WINDOW* m_active_window;
     int m_cursor_x_pos;
     int m_cursor_y_pos;
+
 };
 }
 

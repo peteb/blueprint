@@ -11,27 +11,51 @@
 
 #include <map>
 #include <string>
-
+#include <memory>
+#include <ncurses.h>
 #include <panel.h>
+#include <glog/logging.h>
 
 // -------------------------------------------------------------------------------------------------
 
 namespace blueprint
 {
     
-    typedef struct WindowInfo {
+    class WindowInfo {
+    public:
+        WindowInfo() :
+            startx( 0 ),
+            starty ( 0 ),
+            lines( 0 ),
+            columns( 0),
+            window( nullptr )
+            {};
+        ~WindowInfo() {
+            delwin( window );
+            DLOG(INFO) << "Deleting window";
+        }
         int startx;
         int starty;
-        int height;
-        int width;
+        int lines;
+        int columns;
         bool border;
-    } WIN;
+        WINDOW* window;
+    };
 
-    typedef struct PanelInfo {
-        PANEL* panel;
+    class PanelInfo {
+    public:
+        PanelInfo():
+            panel( nullptr )
+            {};
+        ~PanelInfo() {
+            del_panel( panel );
+            DLOG(INFO) << "Deleting panel";
+            
+        }
         bool hidden;
-        WindowInfo window;
-    } PANELINFO;
+        PANEL* panel;
+        WindowInfo window_info;
+    };
     
     class WorldView
     {
@@ -39,26 +63,25 @@ namespace blueprint
         WorldView();
         ~WorldView();
         /** 
-         * 
+         * create_fullterminal_panel
          * 
          * @param border Add a border or not
          * @param hidden Start hidden or not
          */
-        void create_fullterminal_panel( std::string& panel_name, bool border = false, bool hidden = false);
+        void create_fullterminal_panel( const char* panel_name, bool border = false, bool hidden = false);
 
         /** 
+         * create_panel
          * 
-         * 
-         * @param x Start x position
-         * @param y Start y position
-         * @param width Width of panel
-         * @param height Height of panel
+         * @param startx Start x position
+         * @param starty Start y position
+         * @param lines Lines of panel
+         * @param columns Columns of panel
          * @param border Add a border or not
          * @param hidden Start hidden or not
          */
-        void create_panel(int x, int y, int width, int height, bool border = false, bool hidden = false);
+        bool create_panel( const char* panel_name, int startx, int starty, int lines, int columns, bool border = false, bool hidden = false);
     private:
-        PANEL* create_panel( std::string& panel_name, int x, int y );
 
         /** 
          * Initializes the screen
@@ -70,10 +93,15 @@ namespace blueprint
          */
         void cleanup();
 
+        void release_panel()
+        {
+        }
+
+        typedef std::map< std::string, std::shared_ptr<PanelInfo> > PanelData;
         /*
          * Map holds any number of panels with names
          */
-        std::map<std::string, PANEL*> m_panels;
+        PanelData m_panels;
     };
 }
 

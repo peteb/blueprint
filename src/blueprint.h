@@ -1,9 +1,9 @@
 #ifndef _VOIDS_H_
 #define _VOIDS_H_
 
-namespace voids
+namespace blueprint
 {   
-    class voids
+    class blueprint
     {
     public:
         

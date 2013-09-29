@@ -8,4 +8,4 @@ add_subdirectory(src)
 add_subdirectory(unittest)
 add_subdirectory(gtest)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake_modules/")
-#link_directories (/usr/lib $ENV{BLUEPRINT_ROOT}/gtest/lib)
+
