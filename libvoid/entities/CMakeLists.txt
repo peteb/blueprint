@@ -1,0 +1,10 @@
+cmake_minimum_required(VERSION 2.8)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake_modules/")
+set(CMAKE_CXX_FLAGS "-Wall -pedantic -pipe -ggdb -O0")
+set(CMAKE_CXX_FLAGS_DEBUG "-ggdb -O0")
+set(CMAKE_CXX_FLAGS_RELEASE "-O2")
+
+include_directories ($ENV{BLUEPRINT_ROOT}/libvoid/entities)
+link_directories( /usr/local/lib /usr/lib )
+add_library (entity entity.cpp)
+target_link_libraries(entity noise glog)
