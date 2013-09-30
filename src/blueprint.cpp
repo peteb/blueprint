@@ -42,7 +42,7 @@ int main( int argc, char* argv[] )
     // Setting up the world
 
     WorldView wv;
-    wv.create_fullterminal_panel( "Main" );
+    wv.create_fullterminal_panel( "Main", true, false );
 
     Input input;
 

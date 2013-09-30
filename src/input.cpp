@@ -46,7 +46,7 @@ void Input::init()
                 } 
                 break;
             }
-            case KEY_F(1):
+            case 'q':
             {
                 exit_loop = true;
                 break;
