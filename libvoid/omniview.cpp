@@ -88,7 +88,9 @@ void OmniView::recurse_scan( int x, int y, OmniView::OCTANTS octant, float end_s
         case OmniView::OCTANT_1:
         {
             // Get characters position
-            // Scan a line, coordinate system starts in upper left corner
+            // Find scan area
+            // Verify boundaries - going up to the right
+            // Scan a line
             while ( y_start > 0 ) {
                 --y_start;
                 while ( x_start > 0 ) {
@@ -100,6 +102,7 @@ void OmniView::recurse_scan( int x, int y, OmniView::OCTANTS octant, float end_s
                     recurse_scan( x_start, y_start, octant );
                     }
                 }
+                x_start
             }
             break;
         }
