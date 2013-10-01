@@ -68,7 +68,7 @@ namespace blueprint
          * @param border Add a border or not
          * @param hidden Start hidden or not
          */
-        void create_fullterminal_panel( const char* panel_name, bool border = false, bool hidden = false);
+        void create_fullterminal_panel( const char* panel_name, bool border = true, bool hidden = false);
 
         /** 
          * create_panel
