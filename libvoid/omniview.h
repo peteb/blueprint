@@ -308,7 +308,7 @@ public:
         OCTANT_8
     };
 
-    void recurse_scan( int x, int y, OCTANTS octant );
+    void recurse_scan( int x, int y, OCTANTS octant, float end_slope = 1.0 );
 private:
     const char* m_data;
     int m_entity_x;

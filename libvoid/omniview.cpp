@@ -43,7 +43,8 @@ void OmniView::scan()
 //  cell to the rightmost cell in each row.
 void OmniView::scan_octant_1( )
 {
-    recurse_scan( m_entity_x, m_entity_y, OCTANT_1 );
+    float slope = 1.0;
+    recurse_scan( m_entity_x, m_entity_y, OCTANT_1, slope );
 }
 
 void OmniView::scan_octant_2( )
@@ -76,7 +77,8 @@ void OmniView::scan_octant_8( )
 {
 }
 
-void OmniView::recurse_scan( int x, int y, OmniView::OCTANTS octant )
+// This is applied to y when decrementing.
+void OmniView::recurse_scan( int x, int y, OmniView::OCTANTS octant, float end_slope )
 {
     int x_start = x;
     int y_start = y;
@@ -86,9 +88,7 @@ void OmniView::recurse_scan( int x, int y, OmniView::OCTANTS octant )
         case OmniView::OCTANT_1:
         {
             // Get characters position
-            // Find scan area
-            // Verify boundaries - going up to the right
-            // Scan a line
+            // Scan a line, coordinate system starts in upper left corner
             while ( y_start > 0 ) {
                 --y_start;
                 while ( x_start > 0 ) {
@@ -96,10 +96,10 @@ void OmniView::recurse_scan( int x, int y, OmniView::OCTANTS octant )
                     if ( m_data[ x_start * y_start + x_start ] != WALL ) {
                         ++x_start;
                     } else {
-                    float angle = x - x_start / y - y_start;
+                        end_slope = float(x - x_start) / float(y - y_start);
+                    recurse_scan( x_start, y_start, octant );
                     }
                 }
-                x_start
             }
             break;
         }
