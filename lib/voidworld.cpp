@@ -1,9 +1,11 @@
 #include "voidworld.h"
 #include "omniview.h"
 
-using namespace world;
+using namespace vw;
 
+// -------------------------------------------------------------------------------------------------
 // Implementation class
+
 class VoidWorld::Impl
 {
 public:
@@ -22,16 +24,22 @@ private:
     OmniView m_omni;
 };
 
+// -------------------------------------------------------------------------------------------------
+
 VoidWorld::VoidWorld()
     : m_pImpl(std::make_shared<Impl>())
 
 {
 }
 
+// -------------------------------------------------------------------------------------------------
+
 VoidWorld::~VoidWorld()
 {
 
 }
+
+// -------------------------------------------------------------------------------------------------
 
 void VoidWorld::set_data_source( const char* data, int x, int y)
 {
@@ -39,7 +47,11 @@ void VoidWorld::set_data_source( const char* data, int x, int y)
 
 }
 
+// -------------------------------------------------------------------------------------------------
+
 void VoidWorld::update_entity_position( int x, int y)
 {
     m_pImpl->update_entity_position( x, y );
 }
+
+// -------------------------------------------------------------------------------------------------

@@ -265,7 +265,7 @@ This procedure is repeated on the other octants, thus producing a complete field
 #include <string>
 #include <vector>
 
-namespace world
+namespace vw
 {
 
 class OmniView

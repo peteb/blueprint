@@ -4,7 +4,7 @@
 #include <memory>
 #include <string>
 
-namespace world
+namespace vw
 {
     class VoidWorld
     {

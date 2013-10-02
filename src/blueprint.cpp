@@ -66,9 +66,9 @@ int main( int argc, char* argv[] )
     wv.create_fullterminal_panel( "Main", true, false );
 
     //Input input;
-    world::VoidWorld vw;
-    vw.set_data_source( testmap.c_str(), 53, 18 );
-    vw.update_entity_position( 25, 9 );
+    vw::VoidWorld world;
+    world.set_data_source( testmap.c_str(), 53, 18 );
+    world.update_entity_position( 25, 9 );
 
     return 0;
 }

@@ -3,10 +3,10 @@
 
 #include "omniview.h"
 
-namespace world
+namespace vw
 {
     
     
-} // world
+} // namespace vw
 
 #endif /* _VOID_IMPL_H_ */

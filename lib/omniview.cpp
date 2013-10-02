@@ -7,7 +7,7 @@
 
 #include <glog/logging.h>
 
-using namespace world;
+using namespace vw;
 
 OmniView::OmniView( )
 {
