@@ -1,5 +1,5 @@
-#ifndef _VOIDS_H_
-#define _VOIDS_H_
+#ifndef _BLUEPRINT_H_
+#define _BLUEPRINT_H_
 
 namespace blueprint
 {   
@@ -10,6 +10,6 @@ namespace blueprint
     };   
 }
 
-#endif // VOIDS_H
+#endif // BLUEPRINT_H
 
 

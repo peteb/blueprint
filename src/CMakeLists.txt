@@ -1,12 +1,10 @@
-cmake_minimum_required(VERSION 2.8)
-
-link_directories( $ENV{BLUEPRINT_ROOT}/libvoid /usr/local/lib /usr/lib )
+link_directories( $ENV{BLUEPRINT_ROOT}/lib /usr/local/lib /usr/lib )
 set (CURSES_NEED_NCURSES true)
 find_package(Curses)
 
-include_directories( $ENV{BLUEPRINT_ROOT}/src $ENV{BLUEPRINT_ROOT}/include ${CURSES_INCLUDE_DIRS} )
+include_directories( $ENV{BLUEPRINT_ROOT}/inc $ENV{BLUEPRINT_ROOT}/src ${CURSES_INCLUDE_DIRS} )
 add_executable(blueprint
  	blueprint.cpp
 	world_view.cpp
 	input.cpp)
-target_link_libraries (blueprint void ${CURSES_LIBRARIES} panel glog)
+target_link_libraries (blueprint voidworld ${CURSES_LIBRARIES} panel glog)

@@ -263,6 +263,7 @@ This procedure is repeated on the other octants, thus producing a complete field
 
 #include <cstdlib>
 #include <string>
+#include <vector>
 
 namespace world
 {
@@ -296,6 +297,8 @@ public:
     void scan_octant_6( );
     void scan_octant_7( );
     void scan_octant_8( );
+    
+    void print_map( );
 
     enum OCTANTS {
         OCTANT_1,
@@ -310,7 +313,7 @@ public:
 
     void recurse_scan( int x, int y, OCTANTS octant, float end_slope = 1.0 );
 private:
-    const char* m_data;
+    std::vector<char> m_data;
     int m_entity_x;
     int m_entity_y;
     int m_data_width;

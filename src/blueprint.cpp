@@ -6,6 +6,7 @@
 
 #include "blueprint.h"
 
+#include "voidworld.h"
 #include "world_view.h"
 #include "input.h"
 
@@ -15,8 +16,28 @@
 
 #include <iostream>
 
-
 using namespace blueprint;
+
+static std::string testmap = { // x:52, y:17
+    "#####################################################"
+    "#                                                   #"
+    "#                                                   #"
+    "#       ####    #               #                   #"
+    "#               #               #                   #"
+    "#       #      ##               #                   #"
+    "#       #           ###    ######                   #"
+    "#  ######                                 #         #"
+    "#                                         #         #"
+    "#                        @                #         #"
+    "#                                                   #"
+    "#                                                   #"
+    "#                                                   #"
+    "#                ## # # ##### #    #####            #"
+    "#                                      #            #"
+    "#                                      #            #"
+    "#                                      #            #"
+    "#####################################################"
+}; 
 
 // Start the screen
 // The screen contains two panels one main panel at the top, which is a view of the world.
@@ -44,9 +65,10 @@ int main( int argc, char* argv[] )
     WorldView wv;
     wv.create_fullterminal_panel( "Main", true, false );
 
-    Input input;
-
-    
+    //Input input;
+    world::VoidWorld vw;
+    vw.set_data_source( testmap.c_str(), 53, 18 );
+    vw.update_entity_position( 25, 9 );
 
     return 0;
 }
