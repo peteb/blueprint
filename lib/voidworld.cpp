@@ -11,6 +11,7 @@ class VoidWorld::Impl
 public:
     Impl() {}
     ~Impl() {}
+
     void set_data_source( const char* data, int x, int y )
     {
         m_omni.set_data_source( data, x, y );

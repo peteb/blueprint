@@ -8,7 +8,7 @@
    Instead of tracing lines from the center out to the edges, shadowcasting visits
    mapcells row by row or column by column, starting with the nearest row or column
    and working it's way outward.
-   
+
    When a scan comes across a cell that blocks LOS it calculates which other cells
    in rows/columns farther away that isn't visible because of the blocker.
    Those cells are "in shadow", hence the term shadowcasting.
@@ -53,7 +53,7 @@
   Shared  /     |     \ Shared
   edge by/      |      \edge by
   6 & 7      Shared     4 & 5
-             edge by 
+             edge by
              5 & 6
 
   As with normal shadowcasting, this recursive shadowcasting algorithm scans
@@ -84,7 +84,7 @@
   ................. 16  @ = starting cell
    ......###....... 15  # = blocking cell
     .....###....... 14  . = non-blocking cell
-     ....###..#..## 13 
+     ....###..#..## 13
       ...##........ 12
        ............ 11
         ........... 10
@@ -111,11 +111,11 @@
 
   When we reach the 12th row things are becoming a bit more interesting.
   The recursion is started when we get to row 12 and hit the blocking cells.
-  
+
   ................. 16  # = blocking cell
    ......###....... 15  . = non-blocking cell
-    .....###....... 14  
-     ....###..#..## 13 
+    .....###....... 14
+     ....###..#..## 13
       ...x#........ 12  x = first blocking cell
 
   When the first blocking cell is hit (x) a new scan is started on row 13.
@@ -124,7 +124,7 @@
   The end slope is calculated using a line from the starting point to a point
   that 'brushes' by to the left of the blocking cell.
   If we zoom in it looks something like this:
- 
+
   +---+xxxxx#####  x = first blocking cell
   |   |xxxxx#####  a = point that 'brushes' by to
   |   |xxxxx#####      the left of the blocking cell
@@ -142,12 +142,12 @@
   Ok, so now we have two scans; the original that continues to scan row 12 until
   the rightmost cell is reached and a new scan that scans row 13 from the
   leftmost cell (start slope 1) to the cell at row 13 that intersects the line
-  with a slope of 0.82 (end slope): 
-  
+  with a slope of 0.82 (end slope):
+
   2222............. 16  # = blocking cell
    2222..###....... 15  . = non-blocking cell
-    222..###....... 14  
-     222.###..#..## 13  1 = original scan 
+    222..###....... 14
+     222.###..#..## 13  1 = original scan
       111##11111111 12  2 = new scan
 
   Lets return to the original scan on row 12.
@@ -160,15 +160,15 @@
 
   ................. 16  # = blocking cell
    ......###....... 15  . = non-blocking cell
-    .....###....... 14  
-     ....###..#..## 13 
+    .....###....... 14
+     ....###..#..## 13
       ...##o....... 12  o = first non-blocking cell after a section of blockers
 
   When the first non-blocking cell is found after a section of blockers we need
   to calculate a new start slope for the scan.
   This is done using a line from the center of the starting cell to a point that
   'brushes' by to the right of the blocking cell.
-  If we zoom in it looks something like this: 
+  If we zoom in it looks something like this:
 
   ##########aoooo  o = first non-blocking cell
   ##########o   o  a = point that 'brushes' by to the
@@ -193,11 +193,11 @@
   scan is started one row further away with the new start slope of
   0.6 (instead of the old 1).
 
-  When the original scan starts on row 13 a blocking cell is immediately found: 
+  When the original scan starts on row 13 a blocking cell is immediately found:
 
   ................. 16  # = blocking cell
    ......###....... 15  . = non-blocking cell
-    .....###....... 14  
+    .....###....... 14
      ....##x..#..## 13  x = blocking cell in original scan
 
   When this happens we continue scanning until a non-blocking cell is found.
@@ -209,7 +209,7 @@
 
   ................. 16  # = blocking cell
    ......###....... 15  . = non-blocking cell
-    .....###....... 14  
+    .....###....... 14
      ....##...x..## 13  x = blocking cell in original scan
 
   A new scan is now recursively started in the same way as on row 12.
@@ -219,16 +219,16 @@
 
   2222......33..... 16
    2222..##333..... 15
-    222..##333..... 14  
-     222.###11#11## 13  
+    222..##333..... 14
+     222.###11#11## 13
 
   The same procedure is repeated once more when we move out of the blocking cell,
   find two new non-blocking cells and the run into yet another blocking cell:
 
   2222......33444.. 16
    2222..##333.44.. 15
-    222..##333.44.. 14  
-     222.##111#11## 13  
+    222..##333.44.. 14
+     222.##111#11## 13
 
   When the original scan ends at the rightmost cell in row 13 we end with a blocking
   instead of a non-blocking, as we did in row 12.
@@ -257,7 +257,7 @@ When the scans are done we get this field of view:
                 .. 1
                  @
 
-This procedure is repeated on the other octants, thus producing a complete field of view. 
+This procedure is repeated on the other octants, thus producing a complete field of view.
 
 */
 
@@ -274,15 +274,15 @@ public:
     OmniView();
     ~OmniView();
 
-    /** 
+    /**
      * Sets the data source (screen image to use)
      * To calculate shadowcasting for.
-     * 
+     *
      * @param data Pointer to data
      * @param x x size of area
      * @param y y size of area
-     * 
-     * @return 
+     *
+     * @return
      */
     void set_data_source( const char* data, int x, int y );
 
@@ -297,8 +297,8 @@ public:
     void scan_octant_6( );
     void scan_octant_7( );
     void scan_octant_8( );
-    
-    void print_map( );
+
+    void print_map( const char* map, int x, int y );
 
     enum OCTANTS {
         OCTANT_1,
@@ -311,8 +311,10 @@ public:
         OCTANT_8
     };
 
-    void recurse_scan( int x, int y, OCTANTS octant, float end_slope = 1.0 );
+    void recurse_scan( int x, int y, OCTANTS octant, float start_slope = 1.0f,
+                       float end_slope = 0.0f, bool shadow = false );
 private:
+    std::vector<char> tmp_map;
     std::vector<char> m_data;
     int m_entity_x;
     int m_entity_y;

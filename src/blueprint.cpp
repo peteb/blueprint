@@ -22,11 +22,11 @@ static std::string testmap = { // x:52, y:17
     "#####################################################"
     "#                                                   #"
     "#                                                   #"
-    "#       ####    #               #                   #"
-    "#               #               #                   #"
-    "#       #      ##               #                   #"
-    "#       #           ###    ######                   #"
-    "#  ######                                 #         #"
+    "#       ####    #     #         #                   #"
+    "#               #     #         #                   #"
+    "#       #      ##        ###    #                   #"
+    "#       #           #      ######                   #"
+    "#  ######                #                #         #"
     "#                                         #         #"
     "#                        @                #         #"
     "#                                                   #"
@@ -37,7 +37,7 @@ static std::string testmap = { // x:52, y:17
     "#                                      #            #"
     "#                                      #            #"
     "#####################################################"
-}; 
+};
 
 // Start the screen
 // The screen contains two panels one main panel at the top, which is a view of the world.
@@ -52,18 +52,18 @@ int main( int argc, char* argv[] )
 
     // Initializing ncurses
 
-    initscr( );
-    if ( has_colors() == FALSE ) {
-        LOG(WARNING) << "Your terminal lacks colors.";
-    } else {
-        start_color( );
-    }
-    init_pair( 1, COLOR_RED, COLOR_BLACK );
-    attron( COLOR_PAIR( 1 ) );
+//    initscr( );
+//    if ( has_colors() == FALSE ) {
+//        LOG(WARNING) << "Your terminal lacks colors.";
+//    } else {
+//        start_color( );
+//    }
+//    init_pair( 1, COLOR_RED, COLOR_BLACK );
+//    attron( COLOR_PAIR( 1 ) );
     // Setting up the world
 
-    WorldView wv;
-    wv.create_fullterminal_panel( "Main", true, false );
+    //WorldView wv;
+    //wv.create_fullterminal_panel( "Main", true, false );
 
     //Input input;
     vw::VoidWorld world;
