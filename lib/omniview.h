@@ -312,9 +312,9 @@ public:
     };
 
     void recurse_scan( int x, int y, OCTANTS octant, float start_slope = 1.0f,
-                       float end_slope = 0.0f, bool shadow = false );
-    void print_x(float x_start, float y_start);
-    void print_scan(bool shadow, float y_start, float x_start);
+                       float end_slope = 0.0f, bool shadow = false, size_t recurse_count = 0);
+    void print_x( float x_start, float y_start );
+    void print_scan( bool shadow, float y_start, float x_start, size_t recurse_counter );
 private:
     std::vector<char> tmp_map;
     std::vector<char> m_data;
