@@ -100,15 +100,29 @@ void OmniView::print_map( const char* map, int x, int y )
     }
 }
 // This is applied to y when decrementing.
+void OmniView::print_x(float x_start, float y_start)
+{
+    tmp_map[ y_start * m_data_width + x_start ] = 'X';
+    print_map( tmp_map.data( ), m_data_width, m_data_height );
+}
+
+void OmniView::print_scan(bool shadow, float y_start, float x_start)
+{
+    if ( shadow ) {
+        tmp_map[ y_start * m_data_width + x_start ] = 's';
+    } else {
+        tmp_map[ y_start * m_data_width + x_start ] = '*';
+    }
+    print_map( tmp_map.data(), m_data_width, m_data_height );
+}
+
 void OmniView::recurse_scan( int x, int y, OmniView::OCTANTS octant, float start_slope,
                              float end_slope, bool shadow )
 {
-    float scan_width = 0;
-    float scan_y_pos = 2;
     float x_start = x;
     float y_start = y;
-    int x_offset = 0;
 
+    bool last_was_blocker = false;
     switch ( octant )
     {
         case OmniView::OCTANT_1:
@@ -118,25 +132,25 @@ void OmniView::recurse_scan( int x, int y, OmniView::OCTANTS octant, float start
                 // Offset is the unmodified length of the horizontal "bar" that is being scanned
                 x_start = x;
                 int y_bar_width = y - y_start + 1;
-                scan_width = y_bar_width * ( start_slope - end_slope );
+                int scan_width = y_bar_width * ( start_slope - end_slope );
                 x_start -= scan_width - 1;
                 float step_inc = 1.0f / scan_width;
                 int scan_x_start = ( y_bar_width - ( y_bar_width * start_slope) );
                 x_start += scan_x_start;
                 for ( float step = 0.0f; step < 1.0f; step += step_inc )
                 {
-                    if ( shadow ) {
-                        tmp_map[ y_start * m_data_width + x_start ] = 's';
-                    } else {
-                        tmp_map[ y_start * m_data_width + x_start ] = '*';
-                    }
-                    print_map( tmp_map.data(), m_data_width, m_data_height );
+                    print_scan(shadow, y_start, x_start);
                     if ( m_data[ y_start * m_data_width + x_start ] == WALL ) {
-                        end_slope = fabs(( x - x_start ) / ( y - y_start ));
-                        tmp_map[ y_start * m_data_width + x_start ] = 'X';
-                        print_map( tmp_map.data( ), m_data_width, m_data_height );
-                        // Now recurse
-                        recurse_scan( x_start, y_start, OCTANT_1, start_slope, end_slope, shadow );
+                        if ( ! last_was_blocker ) {
+                            last_was_blocker = true;
+                            end_slope = fabs(( x - x_start ) - 0.1f / ( y - y_start ));
+                            print_x(x_start, y_start);
+                            // Now recurse
+                            recurse_scan( x_start, y_start, OCTANT_1, start_slope, end_slope, shadow );
+                        } else
+                        {
+                            last_was_blocker = false;
+                        }
                     }
 
                     ++x_start;
