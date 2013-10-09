@@ -275,8 +275,8 @@ public:
     ~OmniView();
 
     /**
-     * Sets the data source (screen image to use)
-     * To calculate shadowcasting for.
+     * @name Sets the data source (screen image to use)
+     *       To calculate shadowcasting for.
      *
      * @param data Pointer to data
      * @param x x size of area

@@ -10,13 +10,19 @@
 
 using namespace vw;
 
+// -------------------------------------------------------------------------------------------------
+
 OmniView::OmniView( )
 {
 }
 
+// -------------------------------------------------------------------------------------------------
+
 OmniView::~OmniView( )
 {
 }
+
+// -------------------------------------------------------------------------------------------------
 
 void OmniView::set_data_source( const char* data, int x, int y )
 {
@@ -26,12 +32,16 @@ void OmniView::set_data_source( const char* data, int x, int y )
     m_data_height = y;
 }
 
+// -------------------------------------------------------------------------------------------------
+
 void OmniView::update_entity_position( int x, int y )
 {
     m_entity_x = x;
     m_entity_y = y;
     scan();
 }
+
+// -------------------------------------------------------------------------------------------------
 
 void OmniView::scan()
 {
@@ -45,6 +55,8 @@ void OmniView::scan()
     scan_octant_8( );
 }
 
+// -------------------------------------------------------------------------------------------------
+
 // The 8 octant functions
 
 //  Scans is performed row by row, going from the leftmost
@@ -56,21 +68,31 @@ void OmniView::scan_octant_1( )
     recurse_scan( m_entity_x, m_entity_y, OCTANT_1, slope );
 }
 
+// -------------------------------------------------------------------------------------------------
+
 void OmniView::scan_octant_2( )
 {
 }
+
+// -------------------------------------------------------------------------------------------------
 
 void OmniView::scan_octant_3( )
 {
 }
 
+// -------------------------------------------------------------------------------------------------
+
 void OmniView::scan_octant_4( )
 {
 }
 
+// -------------------------------------------------------------------------------------------------
+
 void OmniView::scan_octant_5( )
 {
 }
+
+// -------------------------------------------------------------------------------------------------
 
 //  Scans is performed row by row, going from the leftmost
 //  cell to the rightmost cell in each row.
@@ -78,13 +100,19 @@ void OmniView::scan_octant_6( )
 {
 }
 
+// -------------------------------------------------------------------------------------------------
+
 void OmniView::scan_octant_7( )
 {
 }
 
+// -------------------------------------------------------------------------------------------------
+
 void OmniView::scan_octant_8( )
 {
 }
+
+// -------------------------------------------------------------------------------------------------
 
 void OmniView::print_map( const char* map, int x, int y )
 {
@@ -99,6 +127,9 @@ void OmniView::print_map( const char* map, int x, int y )
         }
     }
 }
+
+// -------------------------------------------------------------------------------------------------
+
 // This is applied to y when decrementing.
 void OmniView::print_x(float x_start, float y_start)
 {
@@ -106,29 +137,34 @@ void OmniView::print_x(float x_start, float y_start)
     print_map( tmp_map.data( ), m_data_width, m_data_height );
 }
 
+// -------------------------------------------------------------------------------------------------
+static size_t recurse_count;
+
 void OmniView::print_scan(bool shadow, float y_start, float x_start)
 {
     if ( shadow ) {
         tmp_map[ y_start * m_data_width + x_start ] = 's';
     } else {
-        tmp_map[ y_start * m_data_width + x_start ] = '*';
+        tmp_map[ y_start * m_data_width + x_start ] = 0x30 + recurse_count;
     }
     print_map( tmp_map.data(), m_data_width, m_data_height );
 }
+
+// -------------------------------------------------------------------------------------------------
 
 void OmniView::recurse_scan( int x, int y, OmniView::OCTANTS octant, float start_slope,
                              float end_slope, bool shadow )
 {
     float x_start = x;
     float y_start = y;
-
+    recurse_count++;
     bool last_was_blocker = false;
     switch ( octant )
     {
         case OmniView::OCTANT_1:
         {
             --y_start;
-            while ( true ) {
+            while ( y_start > 0 ) {
                 // Offset is the unmodified length of the horizontal "bar" that is being scanned
                 x_start = x;
                 int y_bar_width = y - y_start + 1;
@@ -140,8 +176,8 @@ void OmniView::recurse_scan( int x, int y, OmniView::OCTANTS octant, float start
                 for ( float step = 0.0f; step < 1.0f; step += step_inc )
                 {
                     print_scan(shadow, y_start, x_start);
-                    if ( m_data[ y_start * m_data_width + x_start ] == WALL ) {
-                        if ( ! last_was_blocker ) {
+                    if ( m_data[ y_start * m_data_width + x_start ] == WALL && y_start > 0 ) {
+                        if ( ! last_was_blocker || y_start > 0 ) {
                             last_was_blocker = true;
                             end_slope = fabs(( x - x_start ) - 0.1f / ( y - y_start ));
                             print_x(x_start, y_start);
@@ -152,7 +188,6 @@ void OmniView::recurse_scan( int x, int y, OmniView::OCTANTS octant, float start
                             last_was_blocker = false;
                         }
                     }
-
                     ++x_start;
                 }
                 --y_start;
