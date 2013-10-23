@@ -155,7 +155,7 @@ void OmniView::print_scan( bool shadow, float y_start, float x_start, size_t rec
 void OmniView::recurse_scan( int x, int y, OmniView::OCTANTS octant, float start_slope,
                              float end_slope, bool shadow, size_t recurse_count )
 {
-    float x_start = x;
+    float x_start = m_entity_x;
     float y_start = y;
     size_t r = recurse_count++;
     bool last_was_blocker = false;
@@ -166,21 +166,20 @@ void OmniView::recurse_scan( int x, int y, OmniView::OCTANTS octant, float start
             --y_start;
             while ( y_start > 0 ) {
                 // Offset is the unmodified length of the horizontal "bar" that is being scanned
-                x_start = x;
-                int y_bar_width = y - y_start + 1;
+                int y_bar_width = m_entity_y - y_start;
                 float scan_end_offset = y_bar_width - ( y_bar_width * end_slope );
                 float scan_start_offset = y_bar_width * ( 1.0f - start_slope );
-                x_start -= scan_end_offset - 1;
+                x_start = m_entity_x - ( y_bar_width + scan_start_offset );
                 // Gets number of steps before end of line as adjusted by scan_end_offset
                 float step_inc = 1.0f / scan_end_offset;
-                for ( float step = 0.0f; step < 1.0f; step += step_inc, ++x_start )
+                for ( float step = 0.0f; step < 1.0f - ( 1.0f * end_slope ) ; step += step_inc, ++x_start )
                 {
                     print_scan(shadow, y_start, x_start, recurse_count);
                     if ( m_data[ y_start * m_data_width + x_start ] == WALL ) {
                         if ( y_start == 0 ) {
                             goto out; // Too deep down to do this nicely
                         }
-                        if ( ! last_was_blocker || y_start > 0 ) {
+                        if ( ! last_was_blocker ) {
                             last_was_blocker = true;
                             print_x( x_start, y_start );
                             // Now recurse
