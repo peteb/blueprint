@@ -188,11 +188,19 @@ void OmniView::recurse_scan( int x, int y, OmniView::OCTANTS octant, float start
                                           OCTANT_1,
                                           start_slope,
                                           fabs( ( x - x_start ) / ( y - y_start ) - 0.2f ),
-                                                shadow,
-                                                recurse_count );
-                        } else
-                        {
+                                          shadow,
+                                          recurse_count );
+                        }
+                    } else {
+                        if ( last_was_blocker ) {
                             last_was_blocker = false;
+                            recurse_scan( x_start,
+                                          y_start,
+                                          OCTANT_1,
+                                          fabs( ( x - x_start ) / ( y - y_start ) + 0.2f ),
+                                          end_slope,
+                                          shadow,
+                                          recurse_count );
                         }
                     }
                 }
