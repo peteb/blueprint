@@ -166,13 +166,13 @@ void OmniView::recurse_scan( int x, int y, OmniView::OCTANTS octant, float start
             --y_start;
             while ( y_start > 0 ) {
                 // Offset is the unmodified length of the horizontal "bar" that is being scanned
-                int y_bar_width = m_entity_y - y_start;
+                int y_bar_width = m_entity_y - (y_start - 1);
                 float scan_end_offset = y_bar_width - ( y_bar_width * end_slope );
                 float scan_start_offset = y_bar_width * ( 1.0f - start_slope );
-                x_start = m_entity_x - ( y_bar_width + scan_start_offset );
+                x_start = m_entity_x - ( y_bar_width * start_slope );
                 // Gets number of steps before end of line as adjusted by scan_end_offset
                 float step_inc = 1.0f / scan_end_offset;
-                for ( float step = 0.0f; step < 1.0f - ( 1.0f * end_slope ) ; step += step_inc, ++x_start )
+                for ( float step = 0.0f; step < start_slope - ( 1.0f * end_slope ) ; step += step_inc, ++x_start )
                 {
                     print_scan(shadow, y_start, x_start, recurse_count);
                     if ( m_data[ y_start * m_data_width + x_start ] == WALL ) {
@@ -187,23 +187,27 @@ void OmniView::recurse_scan( int x, int y, OmniView::OCTANTS octant, float start
                                           y_start,
                                           OCTANT_1,
                                           start_slope,
-                                          fabs( ( x - x_start ) / ( y - y_start ) - 0.2f ),
+                                          fabs( ( x - x_start ) / ( y - y_start ) ),
                                           shadow,
                                           recurse_count );
                         }
                     } else {
                         if ( last_was_blocker ) {
-                            last_was_blocker = false;
                             recurse_scan( x_start,
                                           y_start,
                                           OCTANT_1,
-                                          fabs( ( x - x_start ) / ( y - y_start ) + 0.2f ),
+                                          fabs( ( x - ( x_start ) ) / ( y - y_start ) ),
                                           end_slope,
                                           shadow,
                                           recurse_count );
                         }
                     }
                 }
+                if ( x_start == m_entity_x && last_was_blocker ) {
+                    // The recursive call will take over the scan so exit this one
+                    goto out;
+                }
+                
                 --y_start;
             }
         out:
