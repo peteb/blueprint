@@ -152,7 +152,7 @@ void OmniView::print_scan( bool shadow, float y_start, float x_start, size_t rec
 
 // -------------------------------------------------------------------------------------------------
 
-void OmniView::recurse_scan( int x, int y, OmniView::OCTANTS octant, float start_slope,
+void OmniView::recurse_scan( float x, float y, OmniView::OCTANTS octant, float start_slope,
                              float end_slope, bool shadow, size_t recurse_count )
 {
     float x_start = m_entity_x;
@@ -167,8 +167,8 @@ void OmniView::recurse_scan( int x, int y, OmniView::OCTANTS octant, float start
             while ( y_start > 0 ) {
                 // Offset is the unmodified length of the horizontal "bar" that is being scanned
                 int y_bar_width = m_entity_y - (y_start - 1);
-                float scan_end_offset = y_bar_width - ( y_bar_width * end_slope );
                 float scan_start_offset = y_bar_width * ( 1.0f - start_slope );
+                float scan_end_offset = y_bar_width - ( y_bar_width * end_slope );
                 x_start = m_entity_x - ( y_bar_width * start_slope );
                 // Gets number of steps before end of line as adjusted by scan_end_offset
                 float step_inc = 1.0f / scan_end_offset;
@@ -196,7 +196,7 @@ void OmniView::recurse_scan( int x, int y, OmniView::OCTANTS octant, float start
                             recurse_scan( x_start,
                                           y_start,
                                           OCTANT_1,
-                                          fabs( ( x - ( x_start ) ) / ( y - y_start ) ),
+                                          fabs( ( x - x_start ) / ( y - y_start ) ),
                                           end_slope,
                                           shadow,
                                           recurse_count );
