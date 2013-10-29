@@ -167,12 +167,12 @@ void OmniView::recurse_scan( float x, float y, OmniView::OCTANTS octant, float s
             while ( y_start > 0 ) {
                 // Offset is the unmodified length of the horizontal "bar" that is being scanned
                 int y_bar_width = m_entity_y - (y_start - 1);
-                float scan_start_offset = y_bar_width * ( 1.0f - start_slope );
-                float scan_end_offset = y_bar_width - ( y_bar_width * end_slope );
-                x_start = m_entity_x - ( y_bar_width * start_slope );
+                int y_bar_width_start = y_bar_width * start_slope;
+                int y_bar_width_end = y_bar_width * end_slope;
+                y_bar_width = y_bar_width_start - y_bar_width_end;
+                x_start = m_entity_x - y_bar_width_start;
                 // Gets number of steps before end of line as adjusted by scan_end_offset
-                float step_inc = 1.0f / scan_end_offset;
-                for ( float step = 0.0f; step < start_slope - ( 1.0f * end_slope ) ; step += step_inc, ++x_start )
+                for ( int step = 0; step < y_bar_width ; step++, ++x_start )
                 {
                     print_scan(shadow, y_start, x_start, recurse_count);
                     if ( m_data[ y_start * m_data_width + x_start ] == WALL ) {
@@ -187,7 +187,7 @@ void OmniView::recurse_scan( float x, float y, OmniView::OCTANTS octant, float s
                                           y_start,
                                           OCTANT_1,
                                           start_slope,
-                                          fabs( ( x - x_start ) / ( y - y_start ) ),
+                                          fabs( ( x - x_start - 1 ) / ( y - y_start ) ),
                                           shadow,
                                           recurse_count );
                         }
@@ -196,7 +196,7 @@ void OmniView::recurse_scan( float x, float y, OmniView::OCTANTS octant, float s
                             recurse_scan( x_start,
                                           y_start,
                                           OCTANT_1,
-                                          fabs( ( x - x_start ) / ( y - y_start ) ),
+                                          fabs( ( x - x_start - 1) / ( y - y_start ) ),
                                           end_slope,
                                           shadow,
                                           recurse_count );
