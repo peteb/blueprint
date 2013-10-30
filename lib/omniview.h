@@ -311,13 +311,13 @@ public:
         OCTANT_8
     };
 
-    void recurse_scan( float x, float y, OCTANTS octant, float start_slope = 1.0f,
-                       float end_slope = 0.0f, bool shadow = false, size_t recurse_count = 0);
+    void recurse_scan( float start_slope = 1.0f, float end_slope = 0.0f, size_t depth = 0);
     void print_x( float x_start, float y_start );
-    void print_scan( bool shadow, float y_start, float x_start, size_t recurse_counter );
+    void print_scan( float y_start, float x_start, size_t depth );
 private:
     std::vector<char> tmp_map;
     std::vector<char> m_data;
+    int m_current_scan;
     int m_entity_x;
     int m_entity_y;
     int m_data_width;
