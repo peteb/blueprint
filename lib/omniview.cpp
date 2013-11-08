@@ -64,11 +64,8 @@ void OmniView::scan()
 //  cell to the rightmost cell in each row.
 void OmniView::scan_octant_1( )
 {
-    float start_slope = 1.0;
-    float end_slope = 0.0;
-    size_t depth = 0;
     tmp_map = m_data;
-    recurse_scan( start_slope, end_slope, depth  );
+    recurse_scan( m_entity_x, m_entity_y );
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -150,15 +147,13 @@ void OmniView::print_scan( float y_start, float x_start, size_t depth )
 
 // -------------------------------------------------------------------------------------------------
 
-void OmniView::recurse_scan( float start_slope, float end_slope, size_t depth )
+void OmniView::recurse_scan( int x_pos, int y_pos, float start_slope, float end_slope, size_t depth )
 {
-    depth++;
     float x_start = m_entity_x;
-    float y_start = m_entity_y;
-    y_start -= m_current_scan;
+    float y_start = y_pos;
     
     bool last_was_blocker = false;
-    while ( y_start-- > 0 ) {
+    while ( y_start > 0 ) {
         // Offset is the unmodified length of the horizontal "bar" that is being scanned
         int y_bar_width = m_entity_y - (y_start - 1);
         int y_bar_width_start = y_bar_width * start_slope;
@@ -170,22 +165,15 @@ void OmniView::recurse_scan( float start_slope, float end_slope, size_t depth )
         {
             if ( m_data[ y_start * m_data_width + x_start ] == WALL ) {
                 print_x( x_start, y_start );
-                last_was_blocker = true;
-                continue;
-            } else {
-                // When a blocking cell is found a recusive scan is started covering
-                // The area further away up until the first cell in shadow of the blocker
-                if ( last_was_blocker == true ) {
-                    // If this scan is coming from the left, and hit a wall, update the
-                    // end_slope
-                    m_current_scan += 2;
-                    recurse_scan( start_slope,
-                                  fabs( ( m_entity_x - x_start ) /
-                                        ( m_entity_y - y_start ) ),
-                                  depth );
+                if ( last_was_blocker != true ) {
+                    end_slope = fabs( ( m_entity_x - x_start ) / ( m_entity_y - y_start ) );
+                    recurse_scan( start_slope, end_slope, depth );
                 }
+                last_was_blocker = true;
+                // TODO: Adjust end slope
+                continue;
             }
-            if ( last_was_blocker && x_start > m_entity_x ) {
+            else if ( last_was_blocker && x_start != m_entity_x ) {
                 // If this scan is finding a space to the right, just update the start_slope
                 start_slope = fabs( ( m_entity_x - x_start ) /
                                     ( m_entity_y - y_start ) );
@@ -193,6 +181,7 @@ void OmniView::recurse_scan( float start_slope, float end_slope, size_t depth )
             print_scan(y_start, x_start, depth);
         
         }
+        --y_start;
     }
 }
     

@@ -274,6 +274,31 @@ public:
     OmniView();
     ~OmniView();
 
+    enum Octant_XY {
+        OCTANT_1_X,
+        OCTANT_1_Y,
+        OCTANT_2_X,
+        OCTANT_2_Y,
+        OCTANT_3_X,
+        OCTANT_3_Y,
+        OCTANT_4_X,
+        OCTANT_4_Y,
+        OCTANT_5_X,
+        OCTANT_5_Y,
+        OCTANT_6_X,
+        OCTANT_6_Y,
+        OCTANT_7_X,
+        OCTANT_7_Y,
+        OCTANT_8_X,
+        OCTANT_8_Y,
+        OCTANT_SIZE
+    };
+    
+    const int oct_dir[ 4 ] = { -1, -1, // octant 1
+                                1, -1, // octant 2
+                               
+    };
+
     /**
      * @name Sets the data source (screen image to use)
      *       To calculate shadowcasting for.
@@ -300,18 +325,7 @@ public:
 
     void print_map( const char* map, int x, int y );
 
-    enum OCTANTS {
-        OCTANT_1,
-        OCTANT_2,
-        OCTANT_3,
-        OCTANT_4,
-        OCTANT_5,
-        OCTANT_6,
-        OCTANT_7,
-        OCTANT_8
-    };
-
-    void recurse_scan( float start_slope = 1.0f, float end_slope = 0.0f, size_t depth = 0);
+    void recurse_scan( int x_pos, int y_pos, float start_slope = 1.0f, float end_slope = 0.0f, size_t depth = 0);
     void print_x( float x_start, float y_start );
     void print_scan( float y_start, float x_start, size_t depth );
 private:
