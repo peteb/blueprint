@@ -170,13 +170,13 @@ void OmniView::recurse_scan( int x_pos, int y_pos, float start_slope, float end_
                     recurse_scan( start_slope, end_slope, depth );
                 }
                 last_was_blocker = true;
-                // TODO: Adjust end slope
                 continue;
             }
             else if ( last_was_blocker && x_start != m_entity_x ) {
                 // If this scan is finding a space to the right, just update the start_slope
                 start_slope = fabs( ( m_entity_x - x_start ) /
                                     ( m_entity_y - y_start ) );
+                last_was_blocker = false;
             }
             print_scan(y_start, x_start, depth);
         
