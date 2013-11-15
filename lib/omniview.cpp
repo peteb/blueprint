@@ -185,8 +185,8 @@ void OmniView::recurse_scan( int x_pos, int y_pos, float start_slope, float end_
                 recurse_scan( x_start, y_start - 1, start_slope, end_slope, ++depth );
             } else {
                 if ( last_was_blocker ) {  // ####o... Passed wall part 
-                    start_slope = fabs( 1 - fabs( ( m_entity_x - x_start ) /
-                                                  ( m_entity_y - y_start ) ) );
+                    start_slope = fabs( 1 - (1 - fabs( ( m_entity_x - x_start ) /
+                                                       ( m_entity_y - y_start ) ) ) );
                     last_was_blocker = false;
                 }
                 // TODO: Insert into visible 
