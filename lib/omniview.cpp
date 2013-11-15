@@ -146,7 +146,7 @@ void OmniView::print_scan( float y_start, float x_start, size_t depth )
 }
 
 // -------------------------------------------------------------------------------------------------
-
+// If we have a block, keep scanning until unblocked otherwise there is no point in recursing.
 void OmniView::recurse_scan( int x_pos, int y_pos, float start_slope, float end_slope, size_t depth )
 {
     float x_start = m_entity_x;
@@ -165,23 +165,40 @@ void OmniView::recurse_scan( int x_pos, int y_pos, float start_slope, float end_
         {
             if ( m_data[ y_start * m_data_width + x_start ] == WALL ) {
                 print_x( x_start, y_start );
-                if ( last_was_blocker != true ) {
-                    end_slope = fabs( ( m_entity_x - x_start ) / ( m_entity_y - y_start ) );
-                    recurse_scan( start_slope, end_slope, depth );
+
+                // Skip continous blockers
+                if ( last_was_blocker ) {
+                    continue;
+                } else if ( step == 0 ) {
+                    // If first step on new line
+                    last_was_blocker = true;
+                    continue;
+                    // There is no point in updating the end slope yet.
                 }
+                
+                //     x
+                // ....#####
+                // Found first wall entry
                 last_was_blocker = true;
-                continue;
+                end_slope = fabs( ( m_entity_x - ( x_start + 0.2 ) ) 
+                                  / ( m_entity_y - y_start + 0.2 ) );
+                recurse_scan( x_start, y_start - 1, start_slope, end_slope, ++depth );
+            } else {
+                if ( last_was_blocker ) {  // ####o... Passed wall part 
+                    start_slope = fabs( 1 - fabs( ( m_entity_x - x_start ) /
+                                                  ( m_entity_y - y_start ) ) );
+                    last_was_blocker = false;
+                }
+                // TODO: Insert into visible 
+                print_scan(y_start, x_start, depth);
             }
-            else if ( last_was_blocker && x_start != m_entity_x ) {
-                // If this scan is finding a space to the right, just update the start_slope
-                start_slope = fabs( ( m_entity_x - x_start ) /
-                                    ( m_entity_y - y_start ) );
-                last_was_blocker = false;
-            }
-            print_scan(y_start, x_start, depth);
-        
+        }
+        if ( last_was_blocker && x_start + 1 == m_entity_x ) {
+            break;
+            // If this scan is finding a space to the right, just update the start_slope
         }
         --y_start;
     }
 }
-    
+
+
