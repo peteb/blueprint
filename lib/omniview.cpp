@@ -146,6 +146,14 @@ void OmniView::print_scan( float y_start, float x_start, size_t depth )
 }
 
 // -------------------------------------------------------------------------------------------------
+
+void OmniView::print_a( float x_start, float y_start )
+{
+    tmp_map[ y_start * m_data_width + x_start ] = 'O';
+    print_map( tmp_map.data( ), m_data_width, m_data_height );
+}
+
+// -------------------------------------------------------------------------------------------------
 // If we have a block, keep scanning until unblocked otherwise there is no point in recursing.
 void OmniView::recurse_scan( int x_pos, int y_pos, float start_slope, float end_slope, size_t depth )
 {
@@ -182,11 +190,28 @@ void OmniView::recurse_scan( int x_pos, int y_pos, float start_slope, float end_
                 last_was_blocker = true;
                 end_slope = fabs( ( m_entity_x - ( x_start + 0.2 ) ) 
                                   / ( m_entity_y - y_start + 0.2 ) );
-                recurse_scan( x_start, y_start - 1, start_slope, end_slope, ++depth );
+
+                if ( x_start == m_entity_y - ( y_start - 1 ) )
+                {
+                    print_a( x_start - y_bar_width, y_start - 1 );
+                    print_a( x_start - y_bar_width - 1, y_start );
+
+                }
+                if ( m_data[ y_start - 1 * m_data_width + x_start ] == WALL &&
+                     m_data[ y_start * m_data_width + x_start - 1 ] == WALL ) {
+                // Need to check for corner case
+
+
+                    m_data[ y_start - 1 * m_data_width + x_start - 1 ] = 'X';
+                    
+                    last_was_blocker = true;
+                } else {
+                    recurse_scan( x_start, y_start - 1, start_slope, end_slope, ++depth );
+                }
             } else {
                 if ( last_was_blocker ) {  // ####o... Passed wall part 
                     start_slope = fabs( 1 - (1 - fabs( ( m_entity_x - x_start ) /
-                                                       ( m_entity_y - y_start ) ) ) );
+                                                       ( m_entity_y - y_start ) ) ) + -0.2 );
                     last_was_blocker = false;
                 }
                 // TODO: Insert into visible 

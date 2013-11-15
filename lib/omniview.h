@@ -327,6 +327,8 @@ public:
 
     void recurse_scan( int x_pos, int y_pos, float start_slope = 1.0f, float end_slope = 0.0f, size_t depth = 0);
     void print_x( float x_start, float y_start );
+    void print_a( float x_start, float y_start );
+
     void print_scan( float y_start, float x_start, size_t depth );
 private:
     std::vector<char> tmp_map;
