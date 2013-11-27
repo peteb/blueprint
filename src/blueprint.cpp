@@ -39,9 +39,58 @@ static std::string testmap = { // x:52, y:17
     "#####################################################"
 };
 
-// Start the screen
-// The screen contains two panels one main panel at the top, which is a view of the world.
-// One at the bottom a much thinner one that contains information.
+//-| Blueprint class |------------------------------------------------
+
+Blueprint::Blueprint()
+    : m_win(sf::VideoMode(640,480), "Blueprint")
+{
+}
+
+//--------------------------------------------------------------------
+
+Blueprint::~Blueprint()
+{
+}
+
+//--------------------------------------------------------------------
+
+void Blueprint::run()
+{
+}
+
+//--------------------------------------------------------------------
+
+void Blueprint::process_events( )
+{
+    while ( m_win.isOpen( ) )
+    {
+        sf::Event event;
+        while ( m_win.pollEvent( event ) )
+        {
+            if (event.type == sf::Event::Closed)
+                m_win.close();
+        }
+        m_win.clear();
+        //m_win.draw(shape);
+        m_win.display();
+    }
+}
+
+//--------------------------------------------------------------------
+
+void Blueprint::update()
+{
+}
+
+//--------------------------------------------------------------------
+
+void Blueprint::render()
+{
+}
+
+//--------------------------------------------------------------------
+
+// The one and only main method
 
 int main( int argc, char* argv[] )
 {
@@ -50,8 +99,11 @@ int main( int argc, char* argv[] )
     FLAGS_logtostderr = 1;
     DLOG( INFO ) << " Starting Blueprint ";
 
-    // Initializing ncurses
+    // Initializing OpenGL
+    Blueprint b;
+    b.run();
 
+    
 //    initscr( );
 //    if ( has_colors() == FALSE ) {
 //        LOG(WARNING) << "Your terminal lacks colors.";

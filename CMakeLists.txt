@@ -11,9 +11,10 @@ message ("CMAKE Source Dir: " ${CMAKE_SOURCE_DIR})
 message ("CMAKE Binary Dir: " ${CMAKE_BINARY_DIR})
 
 include_directories (${CMAKE_SOURCE_DIR}/src ${CMAKE_SOURCE_DIR}/inc)
+add_subdirectory (3pp/SFML)
 add_subdirectory (lib)
 add_subdirectory (src)
 add_subdirectory (unittest)
 add_subdirectory (gtest)
-set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake_modules/")
+set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake_modules")
 
