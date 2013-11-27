@@ -56,23 +56,25 @@ Blueprint::~Blueprint()
 
 void Blueprint::run()
 {
+    while ( m_win.isOpen( ) )
+    {
+        process_events( );
+        m_win.clear();
+        //m_win.draw(shape);
+        m_win.display();
+    }    
 }
 
 //--------------------------------------------------------------------
 
 void Blueprint::process_events( )
 {
-    while ( m_win.isOpen( ) )
+    sf::Event event;
+    while ( m_win.pollEvent( event ) )
     {
-        sf::Event event;
-        while ( m_win.pollEvent( event ) )
-        {
-            if (event.type == sf::Event::Closed)
-                m_win.close();
+        if ( event.type == sf::Event::Closed ) {
+            m_win.close( );
         }
-        m_win.clear();
-        //m_win.draw(shape);
-        m_win.display();
     }
 }
 
