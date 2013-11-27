@@ -16,10 +16,13 @@ namespace blueprint
         void run();
     private:
         void process_events();
+        void handlePlayerInput( sf::Keyboard::Key key, bool is_pressed );
+
         void update();
         void render();
     private:
         sf::RenderWindow m_win;
+        sf::Time m_time_per_frame;
     };   
 }
 

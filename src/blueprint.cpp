@@ -42,26 +42,35 @@ static std::string testmap = { // x:52, y:17
 //-| Blueprint class |------------------------------------------------
 
 Blueprint::Blueprint()
-    : m_win(sf::VideoMode(640,480), "Blueprint")
+    : m_win( sf::VideoMode( 640,480 ), "Blueprint" )
+    , m_time_per_frame(sf::seconds( 1.0f / 60.0f ) )
+
+{
+    run();
+}
+
+//--------------------------------------------------------------------
+
+Blueprint::~Blueprint( )
 {
 }
 
 //--------------------------------------------------------------------
 
-Blueprint::~Blueprint()
+void Blueprint::run( )
 {
-}
-
-//--------------------------------------------------------------------
-
-void Blueprint::run()
-{
+    sf::Clock clock;
+    sf::Time time_since_last_update = sf::Time::Zero;
     while ( m_win.isOpen( ) )
     {
         process_events( );
-        m_win.clear();
-        //m_win.draw(shape);
-        m_win.display();
+        time_since_last_update += clock.restart();
+        while ( time_since_last_update > m_time_per_frame ) {
+            time_since_last_update -= m_time_per_frame;
+            process_events( );
+            update( );
+        }
+        render( );
     }    
 }
 
@@ -72,22 +81,52 @@ void Blueprint::process_events( )
     sf::Event event;
     while ( m_win.pollEvent( event ) )
     {
-        if ( event.type == sf::Event::Closed ) {
-            m_win.close( );
+        switch ( event.type )
+        {
+            case sf::Event::KeyPressed:
+            {
+                handlePlayerInput( event.key.code, true );
+                break;
+            }
+            case sf::Event::KeyReleased:
+            {
+                handlePlayerInput(event.key.code, false );
+                break;
+            }
+            case sf::Event::Closed:
+            {
+                m_win.close( );
+                break;
+            }
+            default:
+                break;
         }
     }
 }
 
 //--------------------------------------------------------------------
 
-void Blueprint::update()
+void Blueprint::handlePlayerInput( sf::Keyboard::Key key, bool is_pressed )
 {
+    //if (key == sf::Keyboard::W)
+    //    mIsMovingUp = isPressed;
+
+}             
+
+//--------------------------------------------------------------------
+// Update updates the gamestate and moves things around etc.
+void Blueprint::update( )
+{
+    
 }
 
 //--------------------------------------------------------------------
 
 void Blueprint::render()
 {
+        m_win.clear( );
+        //m_win.draw(shape);
+        m_win.display( );
 }
 
 //--------------------------------------------------------------------
@@ -103,7 +142,6 @@ int main( int argc, char* argv[] )
 
     // Initializing OpenGL
     Blueprint b;
-    b.run();
 
     
 //    initscr( );
