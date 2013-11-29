@@ -3,6 +3,7 @@
 
 // SFML (Simple and Fast Multimedia Library)
 #include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
 
 // The game class
 

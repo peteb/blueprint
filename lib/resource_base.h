@@ -3,30 +3,29 @@
 
 // Resource handler class, taking care of textures, images, and audio.
 
+// own
+#include "common.h"
+
+// std
+#include <string>
+#include <map>
+
+// SFML
+#include <SFML/Graphics.hpp>
+
 namespace res
 {
-
-//--------------------------------------------------------------------
-
-    namespace Textures
-    {
-        enum ID
-        {
-            WORLD_TILES = 0
-        }
-    }
-
-//--------------------------------------------------------------------
-
-    template <typename T>
     class ResourceBase
     {
     public:
         ResourceBase();
         ~ResourceBase();
         
-        void load( T::ID, 
+        void load( uint32 ID, const std::string& filename );
+        const sf::Texture& get( uint32 id );
+
     private:
+        std::map< uint32, std::unique_ptr< sf::Texture >> m_data;
     };
 
 }

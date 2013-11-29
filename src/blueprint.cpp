@@ -10,8 +10,6 @@
 #include "world_view.h"
 #include "input.h"
 
-#include <ncurses.h>
-
 #include <glog/logging.h>
 
 #include <iostream>
@@ -143,21 +141,6 @@ int main( int argc, char* argv[] )
     // Initializing OpenGL
     Blueprint b;
 
-    
-//    initscr( );
-//    if ( has_colors() == FALSE ) {
-//        LOG(WARNING) << "Your terminal lacks colors.";
-//    } else {
-//        start_color( );
-//    }
-//    init_pair( 1, COLOR_RED, COLOR_BLACK );
-//    attron( COLOR_PAIR( 1 ) );
-    // Setting up the world
-
-    //WorldView wv;
-    //wv.create_fullterminal_panel( "Main", true, false );
-
-    //Input input;
     vw::VoidWorld world;
     world.set_data_source( testmap.c_str(), 53, 18 );
     world.update_entity_position( 25, 9 );

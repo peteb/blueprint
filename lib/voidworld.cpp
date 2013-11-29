@@ -1,5 +1,11 @@
+
+// own
 #include "voidworld.h"
 #include "omniview.h"
+#include "resource_base.h"
+
+// glog
+#include <glog/logging.h>
 
 using namespace vw;
 
@@ -16,12 +22,27 @@ public:
     {
         m_omni.set_data_source( data, x, y );
     }
+// -------------------------------------------------------------------------------------------------
+
     void update_entity_position( int x, int y )
     {
         m_omni.update_entity_position( x, y );
     }
     
+// -------------------------------------------------------------------------------------------------
+
+    const sf::Texture& get_resource( uint32 id )
+    {
+        // if ( m_data.find( id ) ) {
+        //     DLOG( INFO ) << "Loaded texture with id: " << id;
+        // }
+        
+    }
+
+// -------------------------------------------------------------------------------------------------
+
 private:
+    res::ResourceBase m_resource;
     OmniView m_omni;
 };
 
@@ -56,3 +77,7 @@ void VoidWorld::update_entity_position( int x, int y)
 }
 
 // -------------------------------------------------------------------------------------------------
+
+
+// -------------------------------------------------------------------------------------------------
+
