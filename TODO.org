@@ -1,0 +1,26 @@
+* TODO
+
+** First of all
+Create code for loading textures.
+Create a tiled opengl context in SFML displaying some tiles in a viewport.
+Add an animated character using a Spliner animated figure.
+This tiled figure should use a very simple layour, hands and feet separate, eyes separate.
+Like Prison Architect.
+
+After this is done, start working on generating a bigger world. Remember phaseworld, this could be it.
+Now renamed to Voidworld which is also a good name for it.
+
+This world will include weather, starsigns, clouds ( fog ) and all.
+
+The type of setting could then be cyberpunk or similar.
+The start world should be either present day or back in time.
+Voidworld should be a mix of sorts.
+Steampowered devices and magic in one.
+Think a bit of voidworld as Stalker style.
+
+Some ideas:
+The black.
+
+Stearing should not be as in other games, this is the main point here.
+The character should be able to do stuff. However he might not want to.
+
