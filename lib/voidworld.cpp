@@ -2,7 +2,7 @@
 // own
 #include "voidworld.h"
 #include "omniview.h"
-#include "resource_base.h"
+#include "resources.h"
 
 // glog
 #include <glog/logging.h>
@@ -31,18 +31,18 @@ public:
     
 // -------------------------------------------------------------------------------------------------
 
-    const sf::Texture& get_resource( uint32 id )
+    const sf::Texture& get_resource( uint32 id, sf::Texture& texture )
     {
-        // if ( m_data.find( id ) ) {
-        //     DLOG( INFO ) << "Loaded texture with id: " << id;
-        // }
+        if ( m_resource.get( id, texture ) ) {
+            DLOG( INFO ) << "Loaded texture with id: " << id;
+        }
         
     }
 
 // -------------------------------------------------------------------------------------------------
 
 private:
-    res::ResourceBase m_resource;
+    Resources m_resource;
     OmniView m_omni;
 };
 
@@ -50,7 +50,6 @@ private:
 
 VoidWorld::VoidWorld()
     : m_pImpl(std::make_shared<Impl>())
-
 {
 }
 

@@ -20,6 +20,8 @@ Think a bit of voidworld as Stalker style.
 
 Some ideas:
 The black.
+Zones.
+
 
 Stearing should not be as in other games, this is the main point here.
 The character should be able to do stuff. However he might not want to.
