@@ -30,19 +30,22 @@ public:
     }
     
 // -------------------------------------------------------------------------------------------------
-
-    const sf::Texture& get_resource( uint32 id, sf::Texture& texture )
+    template < typename ResourceId >
+    void load_resource( ResourceId id, const std::string& name )
     {
-        if ( m_resource.get( id, texture ) ) {
-            DLOG( INFO ) << "Loaded texture with id: " << id;
-        }
-        
+        m_resource.load( id, name );
+    }
+// -------------------------------------------------------------------------------------------------
+    template < typename ResourceId, typename ResourceType>
+    const ResourceType& get_resource( ResourceId id ) const
+    {
+        return m_resource.get( id );
     }
 
 // -------------------------------------------------------------------------------------------------
 
 private:
-    Resources m_resource;
+    Resources<u_int32_t, sf::Texture> m_resource;
     OmniView m_omni;
 };
 
@@ -77,6 +80,16 @@ void VoidWorld::update_entity_position( int x, int y)
 
 // -------------------------------------------------------------------------------------------------
 
+template < typename ResourceId, typename ResourceType >
+const ResourceType& VoidWorld::get_resource( ResourceId id ) const
+{
+    m_pImpl->get_resource( id );
+}
+
+void VoidWorld::load_resource( u_int32_t id, const std::string& name )
+{
+    m_pImpl->load_resource( id, name );
+}
 
 // -------------------------------------------------------------------------------------------------
 

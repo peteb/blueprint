@@ -32,10 +32,11 @@ class VoidWorld
         void set_data_source(const char* data, int x, int y);
         void update_entity_position( int x, int y);
 
-// Resource handling methods
+        // Resource handling methods
+        void load_resource( u_int32_t id, const std::string& name );
 
-        void load_resource( Textures::ID id, const std::string& name );
-        const sf::Texture& get_resource( Textures::ID id );
+        template < typename ResourceId, typename ResourceType >
+        const ResourceType& get_resource( ResourceId id ) const;
 
     private:
         class Impl;

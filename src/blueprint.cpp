@@ -44,7 +44,16 @@ Blueprint::Blueprint()
     , m_time_per_frame(sf::seconds( 1.0f / 60.0f ) )
 
 {
-    run();
+    init( );
+    run( );
+}
+
+void Blueprint::init( )
+{
+//    world.set_data_source( testmap.c_str(), 53, 18 );
+//    world.update_entity_position( 25, 9 );
+    std::string test = "Test";
+    world.load_resource( 1, test );
 }
 
 //--------------------------------------------------------------------
@@ -138,12 +147,13 @@ int main( int argc, char* argv[] )
     FLAGS_logtostderr = 1;
     DLOG( INFO ) << " Starting Blueprint ";
 
-    // Initializing OpenGL
-    Blueprint b;
+    // Start everything
+    try {
+        Blueprint b;
+    } catch (...)
+    {
 
-    vw::VoidWorld world;
-    world.set_data_source( testmap.c_str(), 53, 18 );
-    world.update_entity_position( 25, 9 );
+    }
 
     return 0;
 }

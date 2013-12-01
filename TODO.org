@@ -1,5 +1,7 @@
 * TODO
 
+//--------------------------------------------------------------------------------------------------
+
 ** First of all
 Create code for loading textures.
 Create a tiled opengl context in SFML displaying some tiles in a viewport.
@@ -26,3 +28,18 @@ Zones.
 Stearing should not be as in other games, this is the main point here.
 The character should be able to do stuff. However he might not want to.
 
+//--------------------------------------------------------------------------------------------------
+
+** Detail studies
+
+*** Entities
+
+*** Items
+
+*** Weather
+
+*** Zones
+
+//--------------------------------------------------------------------------------------------------
+
+** Notes about anything
