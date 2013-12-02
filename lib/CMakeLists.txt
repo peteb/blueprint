@@ -6,7 +6,6 @@ add_library (voidworld STATIC
   voidworld_impl.cpp
   omniview.cpp
   astar.cpp
-  resources.cpp
   )
 target_link_libraries(voidworld noise glog)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake_modules/")

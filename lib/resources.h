@@ -37,7 +37,6 @@ public:
          * @param id of texture to get
          * @return a sf::Texture reference
          */
-
     const ResourceType& get( ResourceId id );
 
 private:
