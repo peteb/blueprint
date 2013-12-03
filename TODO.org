@@ -3,7 +3,9 @@
 //--------------------------------------------------------------------------------------------------
 
 ** First of all
+
 Create code for loading textures.
+Create a basic character, to get a feel for where to go from here with the graphics.
 Create a tiled opengl context in SFML displaying some tiles in a viewport.
 Add an animated character using a Spliner animated figure.
 This tiled figure should use a very simple layour, hands and feet separate, eyes separate.

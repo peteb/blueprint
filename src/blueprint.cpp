@@ -145,14 +145,14 @@ int main( int argc, char* argv[] )
     // Initialize google logging
     google::InitGoogleLogging( argv[0] );
     FLAGS_logtostderr = 1;
-    DLOG( INFO ) << " Starting Blueprint ";
+    DLOG( INFO ) << "Starting Blueprint";
 
     // Start everything
     try {
         Blueprint b;
     } catch (...)
     {
-
+        DLOG( ERROR ) << "Caught undefined exception";
     }
 
     return 0;
