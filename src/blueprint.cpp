@@ -8,7 +8,6 @@
 
 #include "voidworld.h"
 #include "world_view.h"
-#include "input.h"
 
 #include <glog/logging.h>
 

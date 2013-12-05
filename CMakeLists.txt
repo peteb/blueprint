@@ -16,5 +16,7 @@ add_subdirectory (lib)
 add_subdirectory (src)
 add_subdirectory (unittest)
 add_subdirectory (gtest)
+add_subdirectory (lib/entities)
+add_subdirectory (lib/worldgen)
 set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake_modules")
 
