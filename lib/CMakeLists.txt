@@ -6,7 +6,6 @@ add_library (voidworld STATIC
   voidworld_impl.cpp
   omniview.cpp
   astar.cpp
-  resources.cpp
   entity.cpp
   )
 target_link_libraries(voidworld noise glog)
