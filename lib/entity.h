@@ -2,21 +2,26 @@
 #define _ENTITY_H_
 
 #include <cstdint>
+#include <SFML/Graphics.hpp>
 
 namespace vw
 {
 
-class Entity
+class Entity : public sf::Drawable, public sf::Transformable
 {
 public:
     Entity();
     virtual ~Entity();
 
-    // Basic attributes of an entity
-    // Using the Metric system
-    uint32_t weight; // in kg
-    uint32_t height; // in centimeters
-    
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
+    {
+        states.transform *= getTransform();
+        states.texture = &m_texture;
+        target.draw( m_vertices, states );
+    }
+
+    sf::VertexArray m_vertices;
+    sf::Texture m_texture;
 };
 
 }

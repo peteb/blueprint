@@ -45,3 +45,4 @@ The character should be able to do stuff. However he might not want to.
 //--------------------------------------------------------------------------------------------------
 
 ** Notes about anything
+Drones?
