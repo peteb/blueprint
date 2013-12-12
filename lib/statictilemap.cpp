@@ -1,8 +1,10 @@
-#include "StaticTiledMap.h"
-#include "TileLoader.h"
+#include "statictilemap.h"
+#include "tileloader.h"
 
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/System/Vector2.hpp>
+
+#include <algorithm>
 
 void StaticTiledMap::draw( sf::RenderTarget& target, sf::RenderStates states ) const
 {
@@ -17,14 +19,14 @@ void StaticTiledMap::draw( sf::RenderTarget& target, sf::RenderStates states ) c
     left = static_cast< int >( temp.x / ( CHUNK_SIZE * TILE_SIZE ) );
     top = static_cast< int >( temp.y / ( CHUNK_SIZE * TILE_SIZE ) );
     temp += target.getView( ).getSize( ); //get bottom right point of view
-    right = 1 + static_cast< int >( temp.x / ( chunksize * tilesize ) );
-    bottom = 1 + static_cast< int >( temp.y / ( chunksize * tilesize ) );
+    right = 1 + static_cast< int >( temp.x / ( CHUNK_SIZE * TILE_SIZE ) );
+    bottom = 1 + static_cast< int >( temp.y / ( CHUNK_SIZE * TILE_SIZE ) );
 
     //clamp these to fit into array bounds:
-    left = std::max( 0, std::min( left, chunks_x ) );
-    top = std::max( 0, std::min( top, chunks_y ) );
-    right = std::max( 0, std::min( right, chunks_x ) );
-    bottom = std::max( 0, std::min( bottom, chunks_y ) );
+    left = std::max((u_int32_t)0, std::min( left, m_chunks_x ) );
+    top = std::max( (u_int32_t)0, std::min( top, m_chunks_y ) );
+    right = std::max( (u_int32_t)0, std::min( right, m_chunks_x ) );
+    bottom = std::max( (u_int32_t)0, std::min( bottom, m_chunks_y ) );
 
     //set texture and draw visible chunks:
     states.texture = &m_texture;
@@ -37,35 +39,35 @@ void StaticTiledMap::draw( sf::RenderTarget& target, sf::RenderStates states ) c
     }
 }
 StaticTiledMap::StaticTiledMap( void )
-    : map_x( 0 ),
-      map_y( 0 ),
-      chunks_x( 0 ),
-      chunks_y( 0 )
+    : m_map_x( 0 ),
+      m_map_y( 0 ),
+      m_chunks_x( 0 ),
+      m_chunks_y( 0 )
 {
 }
 
 void StaticTiledMap::load_from( TileLoader* gloader )
 {
-    m_texture.loadFromFile( gloader->GetData( ).TextureName );
-    map_x = gloader->GetData( ).MapX;
-    map_y = gloader->GetData( ).MapY;
-    if( ( map_x * map_y ) ==0 ) //empty map - possibly forgotten to fill data struct
+    m_texture.loadFromFile( gloader->get_data( ).texture_name );
+    m_map_x = gloader->get_data( ).mapx;
+    m_map_y = gloader->get_data( ).mapy;
+    if( ( m_map_x * m_map_y ) == 0 ) // empty map - possibly forgotten to fill data struct
     {
-        //to stop displaying at all after failed loading:
-        chunks_x = 0;
-        chunks_y = 0;
+        m_chunks_x = 0;
+        m_chunks_y = 0;
         m_chunks.clear();
         return;
     }
-    chunks_x = ( map_x / CHUNK_SIZE ) + 1;
-    chunks_y = ( map_y / CHUNK_SIZE ) + 1;
+    m_chunks_x = ( m_map_x / CHUNK_SIZE ) + 1;
+    m_chunks_y = ( m_map_y / CHUNK_SIZE ) + 1;
+
     // Ready up empty 2d arrays
-    m_chunks.assign( chunks_x, std::vector< sf::VertexArray >( chunks_y, sf::VertexArray( sf::Quads ) ) );
-    for(int iy = 0; iy < map_y; ++iy )
+    m_chunks.assign( m_chunks_x, std::vector< sf::VertexArray >( m_chunks_y, sf::VertexArray( sf::Quads ) ) );
+    for( u_int32_t iy = 0; iy < m_map_y; ++iy )
     {
-        for( int ix = 0; ix < map_x; ++ix )
+        for( u_int32_t ix = 0; ix < m_map_x; ++ix )
         {
-            gloader->AppendTile( ix, iy, m_chunks[ ix / CHUNK_SIZE ][ iy / CHUNK_SIZE ]);
+            gloader->append_tile( ix, iy, m_chunks[ ix / CHUNK_SIZE ][ iy / CHUNK_SIZE ]);
         }
     }
 }

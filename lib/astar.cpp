@@ -169,7 +169,6 @@ void AStar::add_closed_list_entry_by_position(Position pos, Entry *entry)
 bool AStar::change_open_to_closed(Entry *entry)
 {
    int score = entry->costs.g_score + entry->costs.h_score;
-   size_t count = m_open_score_list.count(score);
    std::pair<ScoreList::iterator, ScoreList::iterator> ret;
    ret = m_open_score_list.equal_range(score);
    ScoreList::iterator it_f = ret.first, it_e = ret.second;
@@ -354,7 +353,7 @@ void AStar::debugDump()
    //    }
 
    // Draw the resulting path
-   for (int i = 0; i < m_path_result.size(); i++) {
+   for (u_int i = 0; i < m_path_result.size(); i++) {
       map_ascii[m_path_result[i]] = 'x';
    }
    // Highlight best position
@@ -368,7 +367,7 @@ void AStar::debugDump()
    for (int k = 0; k < m_map_size_y; k++) {
       for (int j = 0; j < m_map_size_x; j++) {
          line_out += map_ascii[k * m_map_size_x + j];
-         if (line_out.size() == m_map_size_x) {
+         if (line_out.size() == ( size_t )m_map_size_x) {
             std::cout << line_out << std::endl;
             line_out.clear();
          }

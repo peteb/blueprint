@@ -3,7 +3,7 @@
 #include "voidworld.h"
 #include "omniview.h"
 #include "resources.h"
-
+#include "worldloader.h"
 // glog
 #include <glog/logging.h>
 
@@ -22,6 +22,7 @@ public:
     void set_data_source( const char* data, int x, int y )
     {
         m_omni.set_data_source( data, x, y );
+        create_sperical_wold();
     }
 // -------------------------------------------------------------------------------------------------
 
@@ -29,11 +30,22 @@ public:
     {
         m_omni.update_entity_position( x, y );
     }
+
+
+// -------------------------------------------------------------------------------------------------
+
+    void create_sperical_wold()
+    {
+        WorldLoader w;
+        w.create_spherical_world();
+
+    }
     
 // -------------------------------------------------------------------------------------------------
     template < typename ResourceId >
     void load_resource( ResourceId id, const std::string& name )
     {
+        create_sperical_wold();
         m_resource.load( id, name );
     }
 // -------------------------------------------------------------------------------------------------

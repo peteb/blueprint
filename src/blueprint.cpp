@@ -5,9 +5,7 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "blueprint.h"
-
 #include "voidworld.h"
-#include "world_view.h"
 
 #include <glog/logging.h>
 
