@@ -7,26 +7,34 @@
 
 #include <vector>
 
-class TileLoader;
-class StaticTiledMap : public sf::Drawable
+namespace vm
 {
-private:
-    enum { 
+
+class TileLoader;
+class WorldTileMap : public sf::Drawable
+{
+public:
+    enum {
         TILE_SIZE = 32,
         CHUNK_SIZE = 32
     };
+
+    WorldTileMap( void );
+    virtual ~WorldTileMap( void ) { }
+
+    void load_from( TileLoader* gloader );
+private:
     virtual void draw( sf::RenderTarget& target, sf::RenderStates states ) const;
+
     sf::Texture m_texture;
-    u_int32_t m_map_x;
-    u_int32_t m_map_y;
-    u_int32_t m_chunks_x;
-    u_int32_t m_chunks_y;
+    u_int32_t m_map_x = 0;
+    u_int32_t m_map_y = 0;
+    u_int32_t m_chunks_x = 0;
+    u_int32_t m_chunks_y = 0;
 
     std::vector<std::vector<sf::VertexArray> > m_chunks;
-public:
-    StaticTiledMap( void );
-    virtual ~StaticTiledMap( void ) { }
-    void load_from( TileLoader* gloader );
 };
 
-#endif //STATIC_TILED_MAP_INCLUDED
+}
+
+#endif //STATIC_TILED_MAP_

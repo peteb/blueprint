@@ -37,8 +37,7 @@ public:
     void create_sperical_wold()
     {
         WorldLoader w;
-        w.create_spherical_world();
-
+        w.create_world_chunk(0, 0, 32);
     }
     
 // -------------------------------------------------------------------------------------------------

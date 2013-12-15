@@ -10,115 +10,101 @@
 
 #include <libnoise/noise.h>
 #include "noiseutils.h"
+#include "tileloader.h"
+#include "statictilemap.h"
+#include <cstdint>
 
-class noise::utils::GradientColor;
-class WorldLoader : public TileLoader
+namespace vw
+{
+
+class WorldLoader : public vm::TileLoader
 {
 public:
 
     const float TILE_SIZE = 64.f;
+    const int CHUNK_AREA = 3;
 
     WorldLoader( void )
     {
-        // Set the noise parameters
-
-        m_ridge.SetSeed( m_seed );
-        m_ridge.SetLacunarity( 0.5 );
-        m_ridge.SetFrequency( 3.0 );
-        m_ridge.SetOctaveCount( 5 );
-
-        m_turbulence.SetSourceModule( 0, m_ridge );
-        m_turbulence.SetFrequency( 2.0 );
-        m_turbulence.SetPower( 0.5 );
-
-        m_mapdata.mapx = 100;
-        m_mapdata.mapy = 100;
-        m_mapdata.texture_name="tileset1.tga";
+        m_mapdata.texture_name = "resources/tilesets/tileset1.tga";
     }
 
-    void create_spherical_world()
+    void create_world_chunk( u_int32_t chunk_x_pos, u_int32_t chunk_y_pos, u_int32_t chunk_size )
     {
-        module::RidgedMulti mountainTerrain;
-        mountainTerrain.SetFrequency( 1 );
-        mountainTerrain.SetLacunarity( 2 );
-        mountainTerrain.SetOctaveCount( 2 );
-        module::Billow baseFlatTerrain;
-        baseFlatTerrain.SetFrequency (2.0);
-        baseFlatTerrain.SetOctaveCount( 1 );
-        module::ScaleBias flatTerrain;
-        flatTerrain.SetSourceModule (0, baseFlatTerrain);
-        flatTerrain.SetScale ( 0.2 );
-        flatTerrain.SetBias( 0.2 );
+        module::RidgedMulti mountain_terrain;
+        mountain_terrain.SetFrequency( 0.3 );
+        mountain_terrain.SetOctaveCount( 10 );
+        module::Billow base_flat_terrain;
+        base_flat_terrain.SetFrequency( 0.3 );
+        base_flat_terrain.SetPersistence( 0.5 );
 
-        module::Perlin terrainType;
-        terrainType.SetFrequency ( 1 );
-        terrainType.SetPersistence (0.55);
-        terrainType.SetOctaveCount( 2 );
-        terrainType.SetLacunarity( 0.9 );
-        module::Select terrainSelector;
-        terrainSelector.SetSourceModule (0, flatTerrain);
-        terrainSelector.SetSourceModule (1, mountainTerrain);
-        terrainSelector.SetControlModule (terrainType);
-        terrainSelector.SetBounds (0.0, 1000.0);
-        terrainSelector.SetEdgeFalloff (0.35);
+        module::ScaleBias flat_terrain;
+        flat_terrain.SetSourceModule( 0, base_flat_terrain );
+        flat_terrain.SetScale( 0 );
+        flat_terrain.SetBias( 0.15 );
 
-        module::Turbulence finalTerrain;
-        finalTerrain.SetSourceModule (0, terrainSelector);
-        finalTerrain.SetFrequency (4.0);
-        finalTerrain.SetPower (0.125);
+        module::Perlin terrain_type;
+        terrain_type.SetFrequency( 1.6 );
+        terrain_type.SetPersistence( 0.25 );
+        terrain_type.SetLacunarity( 2 );
+        terrain_type.SetOctaveCount( 12 );
 
-        utils::NoiseMap heightMap;
-        utils::NoiseMapBuilderPlane heightMapBuilder;
-        heightMapBuilder.SetSourceModule (finalTerrain);
-        heightMapBuilder.SetDestNoiseMap (heightMap);
-        heightMapBuilder.SetDestSize (512, 512);
-        heightMapBuilder.SetBounds (6.0, 12.0, 1.0, 7.0);
-        heightMapBuilder.Build ();
+        module::Select terrain_selector;
+        terrain_selector.SetSourceModule( 0, flat_terrain);
+        terrain_selector.SetSourceModule( 1, mountain_terrain );
+        terrain_selector.SetControlModule( terrain_type );
+        terrain_selector.SetBounds( 0.0, 1000.0 );
+        terrain_selector.SetEdgeFalloff( 0.5 );
 
-        utils::RendererImage renderer;
-        utils::Image image;
-        renderer.SetSourceNoiseMap (heightMap);
-        renderer.SetDestImage (image);
-        renderer.ClearGradient ();
-        renderer.AddGradientPoint (-1.0000, utils::Color (  0,   0, 128, 255)); // deeps
-        renderer.AddGradientPoint (-0.3500, utils::Color (  0,   0, 255, 255)); // shallow
-        renderer.AddGradientPoint ( 0.0000, utils::Color (  0, 128, 255, 255)); // shore
-        renderer.AddGradientPoint ( 0.0625, utils::Color (240, 240,  64, 255)); // sand
-        renderer.AddGradientPoint ( 0.1250, utils::Color ( 32, 160,   0, 255)); // grass
-        renderer.AddGradientPoint ( 0.3750, utils::Color (224, 224,   0, 255)); // dirt
-        renderer.AddGradientPoint ( 0.7500, utils::Color (128, 128, 128, 255)); // rock
-        renderer.AddGradientPoint ( 1.0000, utils::Color (255, 255, 255, 255)); // snow
-        renderer.Render ();
+        module::Turbulence final_terrain;
+        final_terrain.SetPower( 0.13 );
+        final_terrain.SetRoughness( 2 );
+        final_terrain.SetSourceModule (0, terrain_selector);
 
-        utils::WriterBMP writer;
-        writer.SetSourceImage (image);
-        writer.SetDestFilename ("world.bmp");
-        writer.WriteDestFile ();
-
-        snapshot();
-    }
-
-    void snapshot()
-    {
         utils::NoiseMap height_map;
         utils::NoiseMapBuilderPlane height_map_builder;
-        height_map_builder.SetSourceModule( m_turbulence );
+        height_map_builder.SetSourceModule( final_terrain );
         height_map_builder.SetDestNoiseMap( height_map );
-        height_map_builder.SetDestSize( 512, 512 );
-        height_map_builder.SetBounds( 6.0, 10.0, 1.0, 5.0 );
+        height_map_builder.SetDestSize( chunk_size, chunk_size );
+        height_map_builder.SetBounds( chunk_x_pos, chunk_x_pos + CHUNK_AREA, chunk_y_pos,
+                                      chunk_y_pos + CHUNK_AREA );
         height_map_builder.Build( );
+
+        // Build array of values
+        for ( u_int32_t i = 0; i < chunk_size; i++ ) {
+            for ( u_int32_t j = 0; j < chunk_size ; j++ ) {
+                
+            }
+        }
+        height_map.GetValue(0, 0);
         
-        
+        snapshot( height_map );
+
+    }
+
+    void snapshot( utils::NoiseMap& height_map )
+    {
         utils::RendererImage renderer;
         utils::Image image;
         renderer.SetSourceNoiseMap( height_map );
-        renderer.SetDestImage( image );
-        
-        renderer.Render();
-        
+        renderer.SetDestImage ( image );
+        renderer.ClearGradient( );
+        renderer.AddGradientPoint(-1.0000, utils::Color( 0, 0, 128, 255 ) ); // deeps
+        renderer.AddGradientPoint(-0.2500, utils::Color( 0, 0, 255, 255 ) ); // shallow
+        renderer.AddGradientPoint( 0.0000, utils::Color( 0, 128, 255, 255 ) ); // shore
+        renderer.AddGradientPoint( 0.0625, utils::Color( 240, 240,  64, 255 ) ); // sand
+
+        renderer.AddGradientPoint( 0.1250, utils::Color( 32, 160, 0, 255  ) ); // grass
+        renderer.AddGradientPoint( 0.2150, utils::Color( 0, 100, 0, 255  ) ); // trees
+        renderer.AddGradientPoint( 0.3750, utils::Color( 224, 224, 0, 255 ) ); // dirt
+        renderer.AddGradientPoint( 0.7500, utils::Color( 128, 128, 128, 255 ) ); // rock
+        renderer.AddGradientPoint( 1.0000, utils::Color( 255, 255, 255, 255 ) ); // snow
+
+        renderer.Render( );
+
         utils::WriterBMP writer;
         writer.SetSourceImage( image );
-        writer.SetDestFilename( "snapshot.bmp" );
+        writer.SetDestFilename( "world.bmp" );
         writer.WriteDestFile( );
     }
 
@@ -144,7 +130,6 @@ public:
 
 private:
     int m_seed;
-    noise::module::Perlin m_perlin;
-    noise::module::RidgedMulti m_ridge;
-    noise::module::Turbulence m_turbulence;
 };
+
+} // namespace vw

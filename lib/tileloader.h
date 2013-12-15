@@ -3,6 +3,8 @@
 
 #include <SFML/Graphics/VertexArray.hpp>
 #include <string>
+namespace vm
+{
 
 struct MapData
 {
@@ -31,5 +33,7 @@ public:
     */
     const MapData& get_data( void ) const { return m_mapdata; }
 };
+
+}
 
 #endif // _TILE_LOADER_

@@ -6,6 +6,8 @@
 
 #include <algorithm>
 
+using namespace vm;
+
 void StaticTiledMap::draw( sf::RenderTarget& target, sf::RenderStates states ) const
 {
     u_int32_t left = 0;
@@ -13,36 +15,33 @@ void StaticTiledMap::draw( sf::RenderTarget& target, sf::RenderStates states ) c
     u_int32_t top = 0;
     u_int32_t bottom = 0;
 
-    //get chunk indices into which top left and bottom right points of view fall:
+    // Get chunk indices into which top left and bottom right points of view fall:
     sf::Vector2f temp = target.getView( ).getCenter( ) -
         ( target.getView( ).getSize( ) / 2.f ); //get top left point of view
-    left = static_cast< int >( temp.x / ( CHUNK_SIZE * TILE_SIZE ) );
-    top = static_cast< int >( temp.y / ( CHUNK_SIZE * TILE_SIZE ) );
+    left = static_cast< u_int32_t >( temp.x / ( CHUNK_SIZE * TILE_SIZE ) );
+    top = static_cast< u_int32_t >( temp.y / ( CHUNK_SIZE * TILE_SIZE ) );
     temp += target.getView( ).getSize( ); //get bottom right point of view
-    right = 1 + static_cast< int >( temp.x / ( CHUNK_SIZE * TILE_SIZE ) );
-    bottom = 1 + static_cast< int >( temp.y / ( CHUNK_SIZE * TILE_SIZE ) );
+    right = 1 + static_cast< u_int32_t >( temp.x / ( CHUNK_SIZE * TILE_SIZE ) );
+    bottom = 1 + static_cast< u_int32_t >( temp.y / ( CHUNK_SIZE * TILE_SIZE ) );
 
-    //clamp these to fit into array bounds:
-    left = std::max((u_int32_t)0, std::min( left, m_chunks_x ) );
-    top = std::max( (u_int32_t)0, std::min( top, m_chunks_y ) );
-    right = std::max( (u_int32_t)0, std::min( right, m_chunks_x ) );
-    bottom = std::max( (u_int32_t)0, std::min( bottom, m_chunks_y ) );
+    // Clamp these to fit into array bounds:
+    left = std::max( ( u_int32_t )0, std::min( left, m_chunks_x ) );
+    top = std::max( ( u_int32_t )0, std::min( top, m_chunks_y ) );
+    right = std::max( ( u_int32_t )0, std::min( right, m_chunks_x ) );
+    bottom = std::max( ( u_int32_t )0, std::min( bottom, m_chunks_y ) );
 
     //set texture and draw visible chunks:
     states.texture = &m_texture;
     for( u_int32_t ix = left; ix < right; ++ix )
     {
-        for(u_int32_t iy = top; iy < bottom; ++iy )
+        for( u_int32_t iy = top; iy < bottom; ++iy )
         {
             target.draw( m_chunks[ ix ][ iy ], states );
         }
     }
 }
+
 StaticTiledMap::StaticTiledMap( void )
-    : m_map_x( 0 ),
-      m_map_y( 0 ),
-      m_chunks_x( 0 ),
-      m_chunks_y( 0 )
 {
 }
 
