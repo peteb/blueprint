@@ -6,6 +6,9 @@
 
 #include <SFML/Graphics.hpp>
 
+namespace VW
+{
+
 class SceneNode :
         public sf::Drawable,
         public sf::Transformable,
@@ -30,5 +33,7 @@ private:
     std::vector< Ptr > m_children;
     SceneNode* m_parent;
 };
+
+} // namespace VW
 
 #endif // _SCENENODE_H_

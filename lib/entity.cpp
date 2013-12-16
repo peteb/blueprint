@@ -1,6 +1,6 @@
 #include "entity.h"
 
-using namespace vw;
+using namespace VW;
 
 Entity::Entity()
 {

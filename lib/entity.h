@@ -4,7 +4,7 @@
 #include <cstdint>
 #include <SFML/Graphics.hpp>
 
-namespace vw
+namespace VW
 {
 
 class Entity : public sf::Drawable, public sf::Transformable
@@ -24,6 +24,6 @@ public:
     sf::Texture m_texture;
 };
 
-}
+} // namespace VW
 
 #endif /* _ENTITY_H_ */

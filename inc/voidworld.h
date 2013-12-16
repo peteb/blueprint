@@ -10,19 +10,8 @@
 #include <SFML/Graphics.hpp>
 
 //--------------------------------------------------------------------
-namespace vw
+namespace VW
 {
-    
-    namespace Textures
-    {
-        enum class ID : std::uint32_t
-        {
-            TERRA_WORLD_TILES = 0,
-            VOID_WORLD_TILES
-        };
-    }
-    
-//--------------------------------------------------------------------
 
 class VoidWorld
     {
@@ -43,6 +32,6 @@ class VoidWorld
         std::shared_ptr<Impl> m_pImpl;
     };
 
-} // Namespace world
+} // namespace VW
 
 #endif /* _VOIDWORLD_H_ */

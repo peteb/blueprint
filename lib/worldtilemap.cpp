@@ -1,14 +1,17 @@
-#include "statictilemap.h"
+// Own
+#include "worldtilemap.h"
 #include "tileloader.h"
 
+// SFML
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/System/Vector2.hpp>
 
+// std
 #include <algorithm>
 
-using namespace vm;
+using namespace VW;
 
-void StaticTiledMap::draw( sf::RenderTarget& target, sf::RenderStates states ) const
+void WorldTileMap::draw( sf::RenderTarget& target, sf::RenderStates states ) const
 {
     u_int32_t left = 0;
     u_int32_t right = 0;
@@ -41,11 +44,11 @@ void StaticTiledMap::draw( sf::RenderTarget& target, sf::RenderStates states ) c
     }
 }
 
-StaticTiledMap::StaticTiledMap( void )
+WorldTileMap::WorldTileMap( void )
 {
 }
 
-void StaticTiledMap::load_from( TileLoader* gloader )
+void WorldTileMap::load_from( TileLoader* gloader )
 {
     m_texture.loadFromFile( gloader->get_data( ).texture_name );
     m_map_x = gloader->get_data( ).mapx;

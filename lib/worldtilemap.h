@@ -1,16 +1,20 @@
 #ifndef _STATIC_TILED_MAP_
 #define _STATIC_TILED_MAP_
 
+// Own
+#include "tileloader.h"
+
+// SFML
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/VertexArray.hpp>
 
+// std
 #include <vector>
 
-namespace vm
+namespace VW
 {
 
-class TileLoader;
 class WorldTileMap : public sf::Drawable
 {
 public:
@@ -35,6 +39,6 @@ private:
     std::vector<std::vector<sf::VertexArray> > m_chunks;
 };
 
-}
+} // namespace VW
 
 #endif //STATIC_TILED_MAP_

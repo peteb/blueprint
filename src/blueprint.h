@@ -30,7 +30,7 @@ namespace blueprint
         sf::RenderWindow m_win;
         sf::Time m_time_per_frame;
 
-        vw::VoidWorld world;
+        VW::VoidWorld world;
     };   
 }
 

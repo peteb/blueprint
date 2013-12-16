@@ -1,6 +1,11 @@
+// Own
 #include "tileloader.h"
-#include "statictilemap.h"
+#include "worldtilemap.h"
+#include "noiseutils.h"
+#include "tileloader.h"
+#include "textureholder.h"
 
+// SFML
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/View.hpp>
@@ -8,25 +13,32 @@
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
 
+// Libnoise
 #include <libnoise/noise.h>
-#include "noiseutils.h"
-#include "tileloader.h"
-#include "statictilemap.h"
+
+// Std
 #include <cstdint>
 
-namespace vw
+namespace VW
 {
 
-class WorldLoader : public vm::TileLoader
+class WorldLoader : public TileLoader
 {
 public:
 
     const float TILE_SIZE = 64.f;
     const int CHUNK_AREA = 3;
 
-    WorldLoader( void )
+    WorldLoader()
     {
-        m_mapdata.texture_name = "resources/tilesets/tileset1.tga";
+        TextureHolder textures;
+        textures.load( Textures::Landscape,
+                       "resources/tilesets/default_world_tileset.tga");
+    }
+
+    WorldLoader( int tileset_x, int tileset_y, std::string& tileset )
+    {
+
     }
 
     void create_world_chunk( u_int32_t chunk_x_pos, u_int32_t chunk_y_pos, u_int32_t chunk_size )

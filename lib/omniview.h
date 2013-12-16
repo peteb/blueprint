@@ -265,7 +265,7 @@ This procedure is repeated on the other octants, thus producing a complete field
 #include <string>
 #include <vector>
 
-namespace vw
+namespace VW
 {
 
 class OmniView
@@ -340,5 +340,6 @@ private:
     int m_data_height;
 };
 
-} // Void namespace
+} // namespace VW
+
 #endif /* _OMNIVIEW_H_ */

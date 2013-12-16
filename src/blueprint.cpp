@@ -28,8 +28,6 @@ void Blueprint::init( )
 {
 //    world.set_data_source( testmap.c_str(), 53, 18 );
 //    world.update_entity_position( 25, 9 );
-    std::string test = "Test";
-    world.load_resource( 1, test );
 }
 
 //--------------------------------------------------------------------
