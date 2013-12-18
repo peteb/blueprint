@@ -67,25 +67,31 @@ void Blueprint::process_events( )
     {
         switch ( event.type )
         {
-            case sf::Event::KeyPressed:
-            {
-                handlePlayerInput( event.key.code, true );
-                break;
-            }
-            case sf::Event::KeyReleased:
-            {
-                handlePlayerInput(event.key.code, false );
-                break;
-            }
+        case sf::Event::KeyPressed:
+        {
+            handlePlayerInput( event.key.code, true );
+            break;
+        }
+        case sf::Event::KeyReleased:
+        {
+            handlePlayerInput(event.key.code, false );
+            break;
+        }
+        case sf::Event::Resized:
+        {
+            // Update the view to the new size of the window
+            sf::FloatRect visible_area(0, 0, event.size.width, event.size.height);
+            m_win.setView( sf::View( visible_area ) );
+            break;
+        }
+        case sf::Event::Closed:
+        {
+            m_win.close( );
+            break;
+        }
 
-            case sf::Event::Closed:
-            {
-                m_win.close( );
-                break;
-            }
-
-            default:
-                break;
+        default:
+            break;
         }
     }
 }
