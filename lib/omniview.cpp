@@ -171,7 +171,7 @@ void OmniView::recurse_scan( int x_pos, int y_pos, float start_slope, float end_
         // Gets number of steps before end of line as adjusted by scan_end_offset
         for ( int step = 0; step < y_bar_width ; step++, ++x_start )
         {
-            if ( m_data[ y_start * m_data_width + x_start ] == WALL ) {
+            if ( m_data[ y_start * m_data_width + x_start ] == '#' ) {
                 print_x( x_start, y_start );
 
                 // Skip continous blockers
@@ -197,8 +197,8 @@ void OmniView::recurse_scan( int x_pos, int y_pos, float start_slope, float end_
                     print_a( x_start - y_bar_width - 1, y_start );
 
                 }
-                if ( m_data[ y_start - 1 * m_data_width + x_start ] == WALL &&
-                     m_data[ y_start * m_data_width + x_start - 1 ] == WALL ) {
+                if ( m_data[ y_start - 1 * m_data_width + x_start ] == '#' &&
+                     m_data[ y_start * m_data_width + x_start - 1 ] == '#' ) {
                 // Need to check for corner case
 
 

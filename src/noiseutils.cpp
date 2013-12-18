@@ -958,7 +958,7 @@ RendererImage::RendererImage ():
   m_recalcLightValues (true)
 {
   BuildGrayscaleGradient ();
-};
+}
 
 void RendererImage::AddGradientPoint (double gradientPos,
   const Color& gradientColor)

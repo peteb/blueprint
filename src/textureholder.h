@@ -6,6 +6,7 @@
 
 // std
 #include <string>
+#include <map>
 #include <memory>
 
 namespace VW

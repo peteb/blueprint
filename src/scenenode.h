@@ -1,5 +1,5 @@
-#ifndef _SCENENODE_H_
-#define _SCENENODE_H_
+#ifndef SCENENODE_H
+#define SCENENODE_H
 
 #include <memory>
 #include <vector>
@@ -36,4 +36,4 @@ private:
 
 } // namespace VW
 
-#endif // _SCENENODE_H_
+#endif // SCENENODE_H

@@ -6,13 +6,6 @@ add_library ( voidworld STATIC
   ../inc/voidworld.h
   omniview.cpp
   astar.cpp
-  textureholder.cpp
-  scenenode.cpp
-  entity.cpp
-  worldtilemap.cpp
-  tileloader.h
-  worldloader.h
-  noiseutils.cpp
   )
 
 target_link_libraries( voidworld noise glog)

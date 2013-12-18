@@ -1,5 +1,5 @@
-#ifndef _ENTITY_H_
-#define _ENTITY_H_
+#ifndef ENTITY_H
+#define ENTITY_H
 
 #include <cstdint>
 #include <SFML/Graphics.hpp>
@@ -26,4 +26,4 @@ public:
 
 } // namespace VW
 
-#endif /* _ENTITY_H_ */
+#endif /* ENTITY_H */

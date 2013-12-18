@@ -14,9 +14,10 @@ include_directories (${CMAKE_SOURCE_DIR}/src ${CMAKE_SOURCE_DIR}/inc)
 add_subdirectory (3pp/SFML)
 add_subdirectory (lib)
 add_subdirectory (src)
+add_subdirectory (src/entities)
+add_subdirectory (src/worldgen)
 add_subdirectory (unittest)
 add_subdirectory (gtest)
-add_subdirectory (lib/entities)
-add_subdirectory (lib/worldgen)
+
 set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake_modules")
 

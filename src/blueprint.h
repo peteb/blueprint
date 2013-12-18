@@ -3,10 +3,12 @@
 
 //own
 #include "voidworld.h"
+#include "worldmap.h"
 
 // SFML (Simple and Fast Multimedia Library)
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+#include <SFML/System.hpp>
 
 // The game class
 
@@ -29,10 +31,10 @@ namespace blueprint
     private:
         sf::RenderWindow m_win;
         sf::Time m_time_per_frame;
-
-        VW::VoidWorld world;
-    };   
-}
+        sf::View m_camera;
+        VW::WorldMap m_worldmap;
+    };
+} // namespace blueprint
 
 #endif // BLUEPRINT_H
 

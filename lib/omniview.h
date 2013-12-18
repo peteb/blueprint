@@ -1,5 +1,5 @@
-#ifndef _OMNIVIEW_H_
-#define _OMNIVIEW_H_
+#ifndef OMNIVIEW_H
+#define OMNIVIEW_H
 
 /* FOV using recursive shadowcasting.
 
@@ -342,4 +342,4 @@ private:
 
 } // namespace VW
 
-#endif /* _OMNIVIEW_H_ */
+#endif // OMNIVIEW_H
