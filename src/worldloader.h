@@ -42,7 +42,7 @@ public:
 
     void create_world_chunk( uint32 chunk_x_pos, uint32 chunk_y_pos, uint32 m_chunk_size );
     const sf::Texture& get_tilemap_texture() const;
-
+    void get_texture_tile_offsets(uint32& tx_offset, uint32& ty_offset );
     void snapshot( utils::NoiseMap& height_map );
 
 private:

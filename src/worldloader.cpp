@@ -33,31 +33,47 @@ Fourth will be:
     0, 32
 
 Essentially a quad will be drawn counter-clockwise.
+
+Grab the proper texture coordinates for the image to be shown.
+
 */
 void WorldLoader::append_tile( uint32 x, uint32 y, sf::VertexArray& vertex_array )
 {
+    // Get the landscape tile at x, y
+    uint32 tx_offset = 0;
+    uint32 ty_offset = 0;
+    get_texture_tile_offsets( tx_offset, ty_offset );
+
     sf::Vertex ver;
     // upper left
-    ver.position = sf::Vector2f( x * m_mapdata.tile_size, y * m_mapdata.tile_size );
-    ver.texCoords = sf::Vector2f( 0.f, 0.f );
+    ver.position = sf::Vector2f( x * m_mapdata.tile_size,
+                                 y * m_mapdata.tile_size );
+    ver.texCoords = sf::Vector2f( tx_offset + 0.f, ty_offset + 0.f );
     vertex_array.append( ver );
 
     // lower left
     ver.position = sf::Vector2f( x * m_mapdata.tile_size + m_mapdata.tile_size,
                                  y * m_mapdata.tile_size );
-    ver.texCoords = sf::Vector2f( m_mapdata.tile_size, 0.f );
+    ver.texCoords = sf::Vector2f( tx_offset + m_mapdata.tile_size, ty_offset + 0.f );
     vertex_array.append( ver );
 
     // lower right
     ver.position = sf::Vector2f( x * m_mapdata.tile_size + m_mapdata.tile_size,
                                  y * m_mapdata.tile_size + m_mapdata.tile_size );
-    ver.texCoords = sf::Vector2f( m_mapdata.tile_size, m_mapdata.tile_size );
+    ver.texCoords = sf::Vector2f( tx_offset + m_mapdata.tile_size, ty_offset + m_mapdata.tile_size );
     vertex_array.append( ver );
 
     // upper right
-    ver.position = sf::Vector2f(x * m_mapdata.tile_size, y * m_mapdata.tile_size + m_mapdata.tile_size );
-    ver.texCoords = sf::Vector2f( 0.f, m_mapdata.tile_size );
+    ver.position = sf::Vector2f(x * m_mapdata.tile_size,
+                                y * m_mapdata.tile_size + m_mapdata.tile_size );
+    ver.texCoords = sf::Vector2f( tx_offset + 0.f, ty_offset + m_mapdata.tile_size );
     vertex_array.append( ver );
+}
+
+void WorldLoader::get_texture_tile_offsets( uint32& tx_offset, uint32& ty_offset )
+{
+    tx_offset = 31 * 32;
+    ty_offset = 31 * 32;
 }
 
 void WorldLoader::create_world_chunk( uint32 chunk_x_pos, uint32 chunk_y_pos, uint32 chunk_size )

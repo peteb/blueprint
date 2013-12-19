@@ -84,12 +84,42 @@ void Blueprint::process_events( )
             m_win.setView( sf::View( visible_area ) );
             break;
         }
+        case sf::Event::LostFocus:
+        {
+            // Pause game
+            break;
+        }
+        case sf::Event::GainedFocus:
+        {
+            // Resume game
+            break;
+        }
         case sf::Event::Closed:
         {
             m_win.close( );
             break;
         }
-
+        case sf::Event::MouseWheelMoved:
+        {
+            if ( event.mouseWheel.delta > 0 ) {
+                m_camera.zoom( 0.95f );
+            } else {
+                m_camera.zoom( 1.05f );
+            }
+            break;
+        }
+        case sf::Event::MouseButtonPressed:
+        {
+            if ( event.mouseButton.button == sf::Mouse::Right )
+            {
+                break;
+            }
+            if ( event.mouseButton.button == sf::Mouse::Left )
+            {
+                break;
+            }
+            break;
+        }
         default:
             break;
         }
