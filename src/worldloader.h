@@ -19,6 +19,8 @@
 // libnoise
 #include <libnoise/noise.h>
 
+// std
+#include <vector>
 
 namespace VW
 {
@@ -26,15 +28,31 @@ namespace VW
 class WorldLoader : public TileLoader
 {
 public:
-    static const uint32 CHUNK_SCALE = 3;
     WorldLoader( )
     {
-        m_mapdata.mapx = 0;
-        m_mapdata.mapy = 0;
-        m_mapdata.tile_size = 0;
-        m_mapdata.chunk_size = 0;
+        m_mapdata.m_mapx = 0;
+        m_mapdata.m_mapy = 0;
+        m_mapdata.m_tile_size = 0;
+        m_mapdata.m_chunk_size = 0;
     }
     ~WorldLoader( ) { }
+
+    enum class TerrainTypes : uint8 {
+        DEEP_WATER,
+        WATER,
+        BEACH,
+        SAND,
+        GRASS,
+        FOREST,
+        TUNDRA,
+        ROCK,
+        MOUNTAIN,
+        TERRAIN_TYPES_MAX
+    };
+    static const uint32
+    TERRAIN_TYPES = 100 /
+            static_cast< uint32 >(TerrainTypes::TERRAIN_TYPES_MAX );
+
     void setup_map( int32 map_x_size, int32 map_y_size, uint32 tile_size, uint32 chunk_size );
 
     // override
@@ -42,9 +60,18 @@ public:
 
     void create_world_chunk( uint32 chunk_x_pos, uint32 chunk_y_pos, uint32 m_chunk_size );
     const sf::Texture& get_tilemap_texture() const;
-    void get_texture_tile_offsets(uint32& tx_offset, uint32& ty_offset );
+    void get_texture_tile_offsets( const uint32 x, const uint32 y,
+                                   uint32& tx_offset, uint32& ty_offset );
+    ///
+    /// \brief clamp_height_value Clamps the value to the predifined ranges used
+    /// \param height int
+    /// \return new clamped value
+    ///
+    uint32 clamp_height_to_terrain( uint32 height );
     void snapshot( utils::NoiseMap& height_map );
 
+    void get_heights( utils::NoiseMap& height_map, std::vector<uint32>& height_values );
+    uint64 create_64bit_id( uint32 chunk_x_pos, uint32 chunk_y_pos );
 private:
     int m_seed;
 };

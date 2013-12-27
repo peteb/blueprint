@@ -34,21 +34,23 @@ void WorldMap::draw( sf::RenderTarget& target, sf::RenderStates states ) const
 
     const MapData& md = m_world.get_data();
     // Get chunk indices into which top left and bottom right points of view fall:
+
+
     sf::Vector2f temp = target.getView( ).getCenter( ) -
         ( target.getView( ).getSize( ) / 2.f ); //get top left point of view
-    left = static_cast< uint32 >( temp.x / ( md.chunk_size * md.tile_size ) );
-    top = static_cast< uint32 >( temp.y / ( md.chunk_size * md.tile_size ) );
+    left = static_cast< uint32 >( temp.x / ( md.m_chunk_size * md.m_tile_size ) );
+    top = static_cast< uint32 >( temp.y / ( md.m_chunk_size * md.m_tile_size ) );
     temp += target.getView( ).getSize( ); //get bottom right point of view
-    right = 1 + static_cast< uint32 >( temp.x / ( md.chunk_size * md.tile_size ) );
-    bottom = 1 + static_cast< uint32 >( temp.y / ( md.chunk_size * md.tile_size ) );
+    right = 1 + static_cast< uint32 >( temp.x / ( md.m_chunk_size * md.m_tile_size ) );
+    bottom = 1 + static_cast< uint32 >( temp.y / ( md.m_chunk_size * md.m_tile_size ) );
 
     // Clamp these to fit into array bounds:
-    left = std::max( ( uint32 )0, std::min( left, md.chunks_x ) );
-    top = std::max( ( uint32 )0, std::min( top, md.chunks_y ) );
-    right = std::max( ( uint32 )0, std::min( right, md.chunks_x ) );
-    bottom = std::max( ( uint32 )0, std::min( bottom, md.chunks_y ) );
+    left = std::max( ( uint32 )0, std::min( left, md.m_chunks_x ) );
+    top = std::max( ( uint32 )0, std::min( top, md.m_chunks_y ) );
+    right = std::max( ( uint32 )0, std::min( right, md.m_chunks_x ) );
+    bottom = std::max( ( uint32 )0, std::min( bottom, md.m_chunks_y ) );
 
-    //set texture and draw visible chunks:
+    // Set texture and draw visible chunks:
     states.texture = &m_world.get_tilemap_texture();
     for( uint32 ix = left; ix < right; ++ix )
     {
@@ -63,15 +65,17 @@ void WorldMap::init_chunks( )
 {
     MapData& md = m_world.get_data();
 
-    md.chunks_x = ( md.mapx / md.chunk_size ) + 1;
-    md.chunks_y = ( md.mapy / md.chunk_size ) + 1;
-
-    m_chunks.assign( md.chunks_x, std::vector< sf::VertexArray >( md.chunks_y, sf::VertexArray( sf::Quads ) ) );
-    for( uint32 iy = 0; iy < md.mapy; ++iy )
+    md.m_chunks_x = ( md.m_mapx / md.m_chunk_size ) + 1;
+    md.m_chunks_y = ( md.m_mapy / md.m_chunk_size ) + 1;
+    // Check for pregenerated chunks here
+    // If not found, generate a new chunk
+    m_world.create_world_chunk( md.m_chunks_x, md.m_chunks_y, md.m_chunk_size );
+    m_chunks.assign( md.m_chunks_x, std::vector< sf::VertexArray >( md.m_chunks_y, sf::VertexArray( sf::Quads ) ) );
+    for( uint32 iy = 0; iy < md.m_mapy; ++iy )
     {
-        for( uint32 ix = 0; ix < md.mapx; ++ix )
+        for( uint32 ix = 0; ix < md.m_mapx; ++ix )
         {
-            m_world.append_tile( ix, iy, m_chunks[ ix / md.chunk_size ][ iy / md.chunk_size ]);
+            m_world.append_tile( ix, iy, m_chunks[ ix / md.m_chunk_size ][ iy / md.m_chunk_size ]);
         }
     }
 }

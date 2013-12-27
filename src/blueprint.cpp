@@ -20,8 +20,12 @@ Blueprint::Blueprint( )
     , m_time_per_frame(sf::seconds( 1.0f / 60.0f ) )
 
 {
+    // TODO: Move these values into a configfile.
     m_win.setVerticalSyncEnabled( true );
+    m_win.setMouseCursorVisible( true );
+
     m_camera = m_win.getDefaultView( );
+
     init( );
     run( );
 }
@@ -29,7 +33,7 @@ Blueprint::Blueprint( )
 void Blueprint::init( )
 {
     std::string tileset("../resources/tilesets/test_tileset.tga");
-    m_worldmap.setup_map( 10, 10, 32, 32, tileset );
+    m_worldmap.setup_map( 32, 32, 32, 32, tileset );
 }
 
 //--------------------------------------------------------------------
@@ -79,6 +83,7 @@ void Blueprint::process_events( )
         }
         case sf::Event::Resized:
         {
+            DLOG( INFO ) << "Window was resized";
             // Update the view to the new size of the window
             sf::FloatRect visible_area(0, 0, event.size.width, event.size.height);
             m_win.setView( sf::View( visible_area ) );
@@ -87,15 +92,18 @@ void Blueprint::process_events( )
         case sf::Event::LostFocus:
         {
             // Pause game
+            DLOG( INFO ) << "Window lost focus";
             break;
         }
         case sf::Event::GainedFocus:
         {
             // Resume game
+            DLOG( INFO ) << "Window gained focus";
             break;
         }
         case sf::Event::Closed:
         {
+            DLOG( INFO ) << "Close event recieved";
             m_win.close( );
             break;
         }
@@ -112,10 +120,26 @@ void Blueprint::process_events( )
         {
             if ( event.mouseButton.button == sf::Mouse::Right )
             {
+                DLOG( INFO ) << "Right mouse button pressed";
                 break;
             }
             if ( event.mouseButton.button == sf::Mouse::Left )
             {
+                DLOG( INFO ) << "Left mouse button pressed";
+                break;
+            }
+            break;
+        }
+        case sf::Event::MouseButtonReleased:
+        {
+            if ( event.mouseButton.button == sf::Mouse::Right )
+            {
+                DLOG( INFO ) << "Right mouse button released";
+                break;
+            }
+            if ( event.mouseButton.button == sf::Mouse::Left )
+            {
+                DLOG( INFO ) << "Left mouse button released";
                 break;
             }
             break;

@@ -16,13 +16,16 @@ namespace VW
 
 struct MapData
 {
+    typedef uint64 ChunkId;
+    typedef std::vector< uint32 > MapHeights;
     TextureHolder m_textures;
-    uint32 mapx = 0;
-    uint32 mapy = 0;
-    uint32 tile_size = 0;
-    uint32 chunk_size = 0;
-    uint32 chunks_x = 0;
-    uint32 chunks_y = 0;
+    uint32 m_mapx = 0;
+    uint32 m_mapy = 0;
+    uint32 m_tile_size = 0;
+    uint32 m_chunk_size = 0;
+    uint32 m_chunks_x = 0;
+    uint32 m_chunks_y = 0;
+    std::map< ChunkId, MapHeights > m_chunk_ids;
 };
 
 class TileLoader
